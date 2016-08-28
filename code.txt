@@ -1,0 +1,1056 @@
+LOGIN PAGE
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" href="css/login.css">
+<title>login page</title>
+<style>
+/*! normalize.css v4.0.0 | MIT License | github.com/necolas/normalize.css */html {
+	font-family: sans-serif;
+	-ms-text-size-adjust: 100%;
+	-webkit-text-size-adjust: 100%
+}
+body {
+	margin: 0
+}
+article, aside, details, figcaption, figure, footer, header, main, menu, nav, section, summary {
+	display: block
+}
+audio, canvas, progress, video {
+	display: inline-block
+}
+audio:not([controls]) {
+	display: none;
+	height: 0
+}
+progress {
+	vertical-align: baseline
+}
+template, [hidden] {
+display:none
+}
+a {
+	background-color: transparent
+}
+a:active, a:hover {
+	outline-width: 0
+}
+abbr[title] {
+	border-bottom: none;
+	text-decoration: underline;
+	text-decoration: underline dotted
+}
+b, strong {
+	font-weight: inherit
+}
+b, strong {
+	font-weight: bolder
+}
+dfn {
+	font-style: italic
+}
+h1 {
+	font-size: 2em;
+	margin: 0.67em 0
+}
+mark {
+	background-color: #ff0;
+	color: #000
+}
+small {
+	font-size: 80%
+}
+sub, sup {
+	font-size: 75%;
+	line-height: 0;
+	position: relative;
+	vertical-align: baseline
+}
+sub {
+	bottom: -0.25em
+}
+sup {
+	top: -0.5em
+}
+img {
+	border-style: none
+}
+svg:not(:root) {
+	overflow: hidden
+}
+code, kbd, pre, samp {
+	font-family: monospace, monospace;
+	font-size: 1em
+}
+figure {
+	margin: 1em 40px
+}
+hr {
+	box-sizing: content-box;
+	height: 0;
+	overflow: visible
+}
+button, input, select, textarea {
+	font: inherit;
+	margin: 0
+}
+optgroup {
+	font-weight: bold
+}
+button, input, select {
+	overflow: visible
+}
+button, select {
+	text-transform: none
+}
+button, [type="button"], [type="reset"], [type="submit"] {
+cursor:pointer
+}
+[disabled] {
+cursor:default
+}
+button, html [type="button"], [type="reset"], [type="submit"] {
+-webkit-appearance:button
+}
+button::-moz-focus-inner, input::-moz-focus-inner {
+border:0;
+padding:0
+}
+button:-moz-focusring, input:-moz-focusring {
+outline:1px dotted ButtonText
+}
+fieldset {
+	border: 1px solid #c0c0c0;
+	margin: 0 2px;
+	padding: 0.35em 0.625em 0.75em
+}
+legend {
+	box-sizing: border-box;
+	color: inherit;
+	display: table;
+	max-width: 100%;
+	padding: 0;
+	white-space: normal
+}
+textarea {
+	overflow: auto
+}
+[type="checkbox"], [type="radio"] {
+box-sizing:border-box;
+padding:0
+}
+[type="number"]::-webkit-inner-spin-button, [type="number"]::-webkit-outer-spin-button {
+height:auto
+}
+[type="search"] {
+-webkit-appearance:textfield
+}
+[type="search"]::-webkit-search-cancel-button, [type="search"]::-webkit-search-decoration {
+-webkit-appearance:none
+}
+@import url(http://fonts.googleapis.com/css?family=Lobster);
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+body {
+	background: hsla(255, 255%, 255%, 1);
+	font: 100%/1 'Lobster', cursive;
+}
+.login {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	margin: -10rem 0 0 -10rem;
+	width: 20rem;
+	height: 20rem;
+	padding: 3em;
+	background: hsla(255,255%,255%,1);
+	border-radius: 50%;
+	overflow: hidden;
+	-webkit-transition: all 1s ease;
+	transition: all 1s ease;
+}
+.login:hover > .header, .login.clicked > .header {
+	width: 2rem;
+}
+.login:hover > .header > .text, .login.clicked > .header > .text {
+	font-size: 1rem;
+	-webkit-transform: rotate(-90deg);
+	transform: rotate(-90deg);
+}
+.login.loading > .header {
+	width: 20rem;
+	-webkit-transition: all 1s ease;
+	transition: all 1s ease;
+}
+.login.loading > .header > .text {
+	display: none;
+}
+.login.loading > .header > .loader {
+	display: block;
+}
+.header {
+	position: absolute;
+	left: 0;
+	top: 0;
+	z-index: 1;
+	width: 20rem;
+	height: 20rem;
+	background: hsla(0, 5%, 0%, 1);
+	-webkit-transition: width 0.5s ease-in-out;
+	transition: width 0.5s ease-in-out;
+}
+.header > .text {
+	display: block;
+	width: 100%;
+	height: 100%;
+	font-size: 5rem;
+	text-align: center;
+	line-height: 20rem;
+	color: hsla(255,255%,255%,1);
+	-webkit-transition: all 0.5s ease-in-out;
+	transition: all 0.5s ease-in-out;
+}
+.header > .loader {
+	display: none;
+	position: absolute;
+	left: 5rem;
+	top: 5rem;
+	width: 10rem;
+	height: 10rem;
+	border-left: 10px solid hsla(255, 255%, 255%, 1);
+	border-bottom: 10px solid hsla(255,255%,255%,1);
+	border-right: 10px solid hsla(255,255%,255%,1);
+	border-top: 8px solid hsla(255,255%,255%,1);
+	border-radius: 50%;
+	box-shadow: inset 2px 2px 2px 2px hsla(0, 5%, 0%, 1);
+	-webkit-animation: loading 2s linear infinite;
+	animation: loading 2s linear infinite;
+}
+.header > .loader:after {
+	content: "";
+	position: absolute;
+	left: 4.15rem;
+	top: -0.5rem;
+	width: 1rem;
+	height: 1rem;
+	background: hsla(1, 75%, 55%, 1);
+	border-radius: 50%;
+	border-right: 1px solid hsla(1, 75%, 55%, 1);
+}
+.header > .loader:before {
+	content: "";
+	position: absolute;
+	left: 3.4rem;
+	top: -0.5rem;
+	width: 0;
+	height: 0;
+	border-right: 1rem solid hsla(1, 75%, 55%, 1);
+	border-top: 0.5rem solid transparent;
+	border-bottom: 0.5rem solid transparent;
+}
+ @-webkit-keyframes loading {
+ 50% {
+ border-left: 10px solid hsla(1, 95%, 25%, 1);
+ border-bottom:10px solid hsla(1, 95%, 25%, 1);
+ border-right:10px solid hsla(1, 95%, 25%, 1);
+ border-top:8px solid hsla(1, 95%, 25%, 1);
+}
+ 100% {
+ -webkit-transform: rotate(360deg);
+ transform: rotate(360deg);
+}
+}
+ @keyframes loading {
+ 50% {
+ border-left: 10px solid hsla(1, 95%, 25%, 1);
+ border-bottom:10px solid hsla(1, 95%, 25%, 1);
+ border-right:10px solid hsla(1, 95%, 25%, 1);
+ border-top:8px solid hsla(1, 95%, 25%, 1);
+}
+ 100% {
+ -webkit-transform: rotate(360deg);
+ transform: rotate(360deg);
+}
+}
+.form {
+	margin: 0 0 0 2rem;
+	padding: 0.5rem;
+}
+.input {
+	display: block;
+	float : left;
+	clear: both;
+	width: 100%;
+	font-size: 2rem;
+	padding: 0.5rem 1rem;
+	box-shadow: none;
+	border-color: hsla(0, 5%, 0%, 1);
+	border-width: 0 0 3px 0;
+	-webkit-transition: all .5s ease-in;
+	transition: all .5s ease-in;
+	outline: transparent;
+}
+.input + .input {
+	margin: 10px 0 0;
+}
+.input:focus {
+	border-bottom: 3px solid hsla(1, 75%, 55%, 1);
+}
+.btn {
+	position: absolute;
+	right: 10.8rem;
+	bottom: 3rem;
+	width: 4rem;
+	height: 4rem;
+	border: none;
+	background: hsla(255, 255%, 255%, 1);
+	font-size: 0;
+	border: none;
+	-webkit-transition: all 0.3s ease-in-out;
+	transition: all 0.3s ease-in-out;
+}
+.resetbtn {
+	position: absolute;
+	right: 2.8rem;
+	bottom: 3rem;
+	width: 4rem;
+	height: 4rem;
+	border: none;
+	background: hsla(255, 255%, 255%, 1);
+	font-size: 0;
+	border: none;
+	-webkit-transition: all 0.3s ease-in-out;
+	transition: all 0.3s ease-in-out;
+}
+.btn:after {
+	content: "";
+	position: absolute;
+	left: 1.4rem;
+	top: 1rem;
+	width: 0;
+	height: 0;
+	border-left: 1.6rem solid hsla(1, 75%, 55%, 1);
+ border-top: .8rem solid transparent;
+ border-bottom: .8rem solid transparent;
+	-webkit-transition: border 0.3s ease-in-out 0s;
+	transition: border 0.3s ease-in-out 0s;
+}
+.btn:hover, .btn:focus, .btn:active {
+	outline: none;
+}
+.btn:hover:after, .btn:focus:after, .btn:active:after {
+	border-left-color: hsla(0, 5%, 0%, 1);
+}
+.resetbtn {
+	margin: 1%;
+	border: none;
+	padding: .5em;
+	text-align: center;
+	float: right;
+	clear: both;
+	width: 5em;
+	background: hsla(0,0%,0%,1);
+	color: hsla(255,255%,255%,1);
+	font-size: 1.5em;
+	border-radius: 2px;
+	-webkit-transition: all 1s ease-in-out;
+	transition: all 1s ease-in-out;
+	outline: none;
+	box-shadow: 0 0 1px 1px hsla(0,0%,0%,0.2);
+}
+.resetbtn:hover, .resetbtn:focus {
+	background: hsla(255,255%,255%,1);
+	color: hsla(0,0%,0%,1);
+	outline: 5px solid hsla(0,0%,0%,1);
+}
+</style>
+</head>
+<body>     
+   		<br>
+		<br>
+		<br>
+		<br>
+			<h1 align="center">Local Conveyance Form</h1>
+				<div class="login">
+			  		<header class="header"> 
+			  			<span class="text">LOGIN</span> <span class="loader"></span>			  	
+			  		</header>
+			  			<form name="form" class="form" action="home.jsp">
+						    <input class="input" type="text" name="username" placeholder="Username" required="" autofocus="">
+						    <input class="input" type="password" name="password" placeholder="Password" required="">
+						    <div style="margin-top:5px;">
+						    <button class="btn" type="submit" onclick="validateForm()"></button>
+						    <button class ="resetbtn" type= "reset">Reset Password </button>
+				   			</div>
+<%
+	 	String lUsername = request.getParameter("username");    
+    	String lId = request.getParameter("password");
+        Class.forName("com.mysql.jdbc.Driver");
+	    Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/LCF", "root", "admin");
+	    Statement st = con.createStatement();
+	    ResultSet lResultset;
+	    lResultset = st.executeQuery("select * from employee_details where name='" + lUsername + "'");
+	    if (lResultset.next()) 
+	    {
+	    	if((lResultset.getString(1).equals(lId)) && (lResultset.getString(2).equals(lUsername)))
+	    	{
+		        out.println("welcome " + lUsername);     
+		        response.sendRedirect("home.jsp");
+	    	}
+	    } 
+	    else  
+	    {	  
+	    	//String message = (String)request.getAttribute("alertMsg");
+	    	request.setAttribute("AlertMessage", "Invalid username or password");
+	        //response.sendRedirect("login.jsp");          
+	    }
+    
+     %>
+								
+ </form>
+	</div>	
+</body>
+</html>
+--------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+HOME PAGE FOR EMPLOYEE
+
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+    <%@ page errorPage = "login.jsp" %>
+	<%@ page import = "java.sql.*" %>
+  	<%@ page import = "java.sql.*" %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">  
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" rel="stylesheet"/> 
+<title>Home Page</title>
+</head>
+<body background ="css/ofc.jpg">
+		<h1 align="center">Local Conveyance Form(LCF)</h1>
+		<br>
+		<!--<button class="ui-btn ui-shadow ui-corner-all ui-btn-icon-left ui-icon-refresh">Refresh</button>-->
+		
+		<!--<button class="ui-btn-right ui-btn ui-icon-user ui-btn-icon-left ui-shadow ui-cornner-all">Profile-->
+		</div>
+<header>
+        <div class="container">
+        <div class="row">
+            <div class="text-center">                
+                <div class="intro-heading">Welcome to EDS Technologies</div>
+				<div class="intro-lead-in">It's Nice To Meet You</div><br>
+				<br>
+                <a href="form.jsp" class="page-scroll btn btn-default btn-success">create a new LCF</a>
+				<a href="#services" class="page-scroll btn btn-default btn-info">View my LCF</a>				
+				<div data-role="main" class="ui-content" style="margin-top:10px">
+				<a id="prof" href="#Panel" data-action="profile" class="btn btn-danger" onclick="location.href='login.jsp'">Logout</a>
+            </div>
+        </div>
+     </div>   
+  
+</header>
+</body>
+</html>
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+HOME PAGE FOR MANAGER & FINANCE DEPT
+
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+    <%@ page errorPage = "login.jsp" %>
+	<%@ page import = "java.sql.*" %>
+  	<%@ page import = "java.sql.*" %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">  
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" rel="stylesheet"/> 
+<title>Home Page</title>
+</head>
+<body background ="css/ofc.jpg">
+		<h1 align="center">Local Conveyance Form(LCF)</h1>
+		<br>
+		<!--<button class="ui-btn ui-shadow ui-corner-all ui-btn-icon-left ui-icon-refresh">Refresh</button>-->
+		
+		<!--<button class="ui-btn-right ui-btn ui-icon-user ui-btn-icon-left ui-shadow ui-cornner-all">Profile-->
+		</div>
+<header>
+        <div class="container">
+        <div class="row">
+            <div class="text-center">                
+                <div class="intro-heading">Welcome to EDS Technologies</div>
+				<div class="intro-lead-in">It's Nice To Meet You</div><br>
+				<br>
+                <a href="form.jsp" class="page-scroll btn btn-default btn-success">create a new LCF</a>
+				<a href="#services" class="page-scroll btn btn-default btn-info">View my LCF</a>
+				<a href="#services" class="page-scroll btn btn-default btn-primary">View Direct Subordinates LCF's</a>
+				<div data-role="main" class="ui-content" style="margin-top:10px">
+				<a id="prof" href="#Panel" data-action="profile" class="btn btn-danger" onclick="location.href='login.jsp'">Logout</a>
+            </div>
+        </div>
+     </div>   
+  
+</header>
+</body>
+</html>
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+HOME PAGE FOR ADMIN
+
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+    <%@ page errorPage = "login.jsp" %>
+	<%@ page import = "java.sql.*" %>
+  	<%@ page import = "java.sql.*" %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">  
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" rel="stylesheet"/> 
+<title>Home Page</title>
+</head>
+<body background ="css/ofc.jpg">
+		<h1 align="center">Local Conveyance Form(LCF)</h1>
+		<br>
+		<!--<button class="ui-btn ui-shadow ui-corner-all ui-btn-icon-left ui-icon-refresh">Refresh</button>-->
+		
+		<!--<button class="ui-btn-right ui-btn ui-icon-user ui-btn-icon-left ui-shadow ui-cornner-all">Profile-->
+		</div>
+<header>
+        <div class="container">
+        <div class="row">
+            <div class="text-center">                
+                <div class="intro-heading">Welcome to EDS Technologies</div>
+				<div class="intro-lead-in">It's Nice To Meet You</div><br>
+				<br>
+                <a href="form.jsp" class="page-scroll btn btn-default btn-success">create a new LCF</a>
+				<a href="#services" class="page-scroll btn btn-default btn-info">View my LCF</a>
+				<a href="#services" class="page-scroll btn btn-default btn-primary">Modify Travel Mode</a>
+				<div data-role="main" class="ui-content" style="margin-top:10px">
+				<a id="prof" href="#Panel" data-action="profile" class="btn btn-danger" onclick="location.href='login.jsp'">Logout</a>
+            </div>
+        </div>
+     </div>   
+  
+</header>
+</body>
+</html>
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+CREATE NEW LCF(on click of this button in all home pages)
+
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+<%@ page import = "java.sql.*" %>
+<%@ page import = "java.sql.*" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" rel="stylesheet"/>
+<title>LCF</title>
+</head>
+<body style="background:#E6E6FA">
+<div class="container">
+  <div class="row">
+    <h1 align="center">EDS TECHNOLOGIES PRIVATE LIMITED</h1>
+    <p align="center"> Regd: The Estate,Second Floor,121,Dickenson Road,Bangalore-560042,INDIA</p>
+    <p align="center">Tel:49190333,25514338 Fax:49190399</p>
+    <h2 align="center">Local Conveyance Form</h2>
+    <br>
+    <div class="form-horizontal">
+      <label class="col-sm-1">Name</label>
+      <%			
+				String lUsername = request.getParameter("username"); 
+		    	String lId = request.getParameter("password");
+		        Class.forName("com.mysql.jdbc.Driver");
+			    Connection lconnection = DriverManager.getConnection("jdbc:mysql://localhost:3306/LCF", "root", "admin");
+			    Statement lstatement = lconnection.createStatement();
+			    ResultSet lResultset;		    
+  			try
+  			{	        
+                String queryString = "select * from employee_details";
+                lResultset=lstatement.executeQuery(queryString);
+                if(lResultset.next())
+                {
+	           		if((lResultset.getString(1).equals(lId)) && (lResultset.getString(2).equals(lUsername)));
+	            	String lUsername1 = lResultset.getString(2);
+	            	String name=lResultset.getString(2);
+	                String region=lResultset.getString(8);
+	                String designation=lResultset.getString(4);
+	                String id=lResultset.getString(1);
+	                String travelplan=lResultset.getString(7);
+	                String department=lResultset.getString(3);                                    
+               %>
+      <div class="col-sm-3">
+        <input name="name" class="form-control" placeholder="Name" value="<%=name%>" disabled>
+      </div>
+    </div>
+    <div class="form-horizontal">
+      <label class="col-sm-1">Region</label>
+      <div class="col-sm-3">
+        <input name="name" class="form-control"  placeholder="Region" value="<%=region %>" disabled>
+      </div>
+    </div>
+    <div class="form-horizontal">
+      <label class="col-sm-1">Designation</label>
+      <div class="col-sm-3">
+        <input name="name" class="form-control"  placeholder="Designation" value="<%=designation %>" disabled>
+      </div>
+    </div>
+    <div class="form-horizontal">
+      <label class="col-sm-1">Employee Code</label>
+      <div class="col-sm-3">
+        <input name="name" class="form-control"  placeholder="Employee Code" value="<%=id %>" disabled>
+      </div>
+    </div>
+    <br>
+    <br>
+    <div class="form-horizontal">
+      <label class="col-sm-1">Travel Plan</label>
+      <div class="col-sm-3">
+        <input name="name" class="form-control"  placeholder="Travel Plan" value="<%=travelplan %>" disabled>
+      </div>
+    </div>
+    <div class="form-horizontal">
+      <label class="col-sm-1">Department</label>
+      <div class="col-sm-3">
+        <input name="name" class="form-control"  placeholder="Department" value="<%=department %>" disabled>
+      </div>
+    </div>
+    <%} }
+ 
+ catch(Exception e)
+         {
+             out.println("Unable to connect to database");
+             //request.setAttribute("data",String);
+         }
+         finally
+         {
+        	 lstatement.close();
+        	 lconnection.close();
+         }
+   
+        %>
+    <br>
+    <h3 align ="left-side"> Statement of Conveyance Expenditure for <script type="text/javascript"src="http://www.snaphost.com/jquery/Calendar.aspx"></script> </h3>
+    <form method="GET" id="my_form">
+    </form>
+    <%
+	              
+					String date=request.getParameter("date");
+					String sno=request.getParameter("s.no");
+					String from=request.getParameter("from");
+					String to=request.getParameter("to");
+					String distance=request.getParameter("distance");
+					String mode=request.getParameter("mode");
+					String amount=request.getParameter("amount");																		
+				
+					try
+					{	Connection connection = null;							            
+						Class.forName("com.mysql.jdbc.Driver");
+					    Connection lconnections = DriverManager.getConnection("jdbc:mysql://localhost:3306/LCF", "root", "admin");
+					    Statement lstatements = lconnections.createStatement();
+						int i=lstatements.executeUpdate("insert into LCFdetails(date,s.no,from,to,distance,mode,amount) values ('"+date+"','"+sno+"','"+from+"','"+to+"','"+distance+"','"+mode+"',"+amount+")");
+						//ResultSet resultset = lstatements.executeQuery("select * from LFCdetails");
+						out.println("Data is successfully inserted!");
+						ResultSet resultset = lstatements.executeQuery("select * from Employees");
+						while(lResultset.next())
+						{%>
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>SI.NO</th>
+          <th style="text-align:center" colspan="2">Location</th>
+          <th>Distance in Kms</th>
+          <th>Mode</th>
+          <th>Amount</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td></td>
+          <td></td>
+          <th>From</th>
+          <th>To</th>
+          <td></td>
+          <td></td>
+          <th></th>
+        </tr>
+        <tr>
+          <td><input type="text" class="form-control" value=""></td>
+          <td><input type="text" class="form-control" value=""></td>
+          <td><input type="text" class="form-control" value=""></td>
+          <td><input type="text" class="form-control" value=""></td>
+          <td><input type="text" class="form-control" value=""></td>
+          <td class ="select"><select class="form-control">
+              <option>Car</option>
+              <option>Bike</option>
+              <option>Cab</option>
+              <option>Scooty</option>
+              <option>Toll</option>
+              <option>Parking</option>
+              <option>Others</option>
+            </select></td>
+          <td><input type="text" class="form-control" value=""></td>
+        </tr>
+        <tr>
+          <td><input type="text" class="form-control" value=""></td>
+          <td><input type="text" class="form-control" value=""></td>
+          <td><input type="text" class="form-control" value=""></td>
+          <td><input type="text" class="form-control" value=""></td>
+          <td><input type="text" class="form-control" value=""></td>
+          <td class = "select"><select class="form-control">
+              <option>Car</option>
+              <option>Bike</option>
+              <option>Cab</option>
+              <option>Scooty</option>
+              <option>Toll</option>
+              <option>Parking</option>
+              <option>Others</option>
+            </select></td>
+          <td><input type="text" class="form-control" value=""></td>
+        </tr>
+        <tr>
+          <td><input type="text" class="form-control" value=""></td>
+          <td><input type="text" class="form-control" value=""></td>
+          <td><input type="text" class="form-control" value=""></td>
+          <td><input type="text" class="form-control" value=""></td>
+          <td><input type="text" class="form-control" value=""></td>
+          <td class = "select"><select class="form-control">
+              <option>Car</option>
+              <option>Bike</option>
+              <option>Cab</option>
+              <option>Scooty</option>
+              <option>Toll</option>
+              <option>Parking</option>
+              <option>Others</option>
+            </select></td>
+          <td><input type="text" class="form-control" value=""></td>
+        </tr>
+        <tr>
+          <td><input type="text" class="form-control" value=""></td>
+          <td><input type="text" class="form-control" value=""></td>
+          <td><input type="text" class="form-control" value=""></td>
+          <td><input type="text" class="form-control" value=""></td>
+          <td><input type="text" class="form-control" value=""></td>
+          <td class = "select"><select class="form-control">
+              <option>Car</option>
+              <option>Bike</option>
+              <option>Cab</option>
+              <option>Scooty</option>
+              <option>Toll</option>
+              <option>Parking</option>
+              <option>Others</option>
+            </select></td>
+          <td><input type="text" class="form-control" value=""></td>
+        </tr>
+        <tr>
+          <td><input type="text" class="form-control" value=""></td>
+          <td><input type="text" class="form-control" value=""></td>
+          <td><input type="text" class="form-control" value=""></td>
+          <td><input type="text" class="form-control" value=""></td>
+          <td><input type="text" class="form-control" value=""></td>
+          <td class = "select"><select class="form-control">
+              <option>Car</option>
+              <option>Bike</option>
+              <option>Cab</option>
+              <option>Scooty</option>
+              <option>Toll</option>
+              <option>Parking</option>
+              <option>Others</option>
+            </select></td>
+          <td><input type="text" class="form-control" value=""></td>
+        </tr>
+        <tr>
+          <td><input type="text" class="form-control" value=""></td>
+          <td><input type="text" class="form-control" value=""></td>
+          <td><input type="text" class="form-control" value=""></td>
+          <td><input type="text" class="form-control" value=""></td>
+          <td><input type="text" class="form-control" value=""></td>
+          <td class = "select"><select class="form-control">
+              <option>Car</option>
+              <option>Bike</option>
+              <option>Cab</option>
+              <option>Scooty</option>
+              <option>Toll</option>
+              <option>Parking</option>
+              <option>Others</option>
+            </select></td>
+          <td><input type="text" class="form-control" value=""></td>
+        </tr>
+        <tr>
+          <td><input type="text" class="form-control" value=""></td>
+          <td><input type="text" class="form-control" value=""></td>
+          <td><input type="text" class="form-control" value=""></td>
+          <td><input type="text" class="form-control" value=""></td>
+          <td><input type="text" class="form-control" value=""></td>
+          <td class = "select"><select class="form-control">
+              <option>Car</option>
+              <option>Bike</option>
+              <option>Cab</option>
+              <option>Scooty</option>
+              <option>Toll</option>
+              <option>Parking</option>
+              <option>Others</option>
+            </select></td>
+          <td><input type="text" class="form-control" value=""></td>
+        </tr>
+      </tbody>
+    </table>
+    <% }
+					}
+					catch(Exception lException)
+					{
+						System.out.print(lException);
+						// lException.printStackTrace();
+						response.sendRedirect("success.jsp");
+					}
+
+				%>
+    <input type="file" id="myFile">
+    <br>
+    <div class="form-horizontal">
+      <label class="col-sm-1">In Words</label>
+      <div class="col-sm-3">
+        <input class="form-control">
+      </div>
+    </div>
+    <div class="form-horizontal">
+      <label class="col-sm-1">Total</label>
+      <div class="col-sm-3">
+        <input class="form-control" style="float:left">
+      </div>
+    </div>
+    <br>
+    <br>
+    <p>Please reimburse the above expenditure incurred by me.</p>
+    <div class="form-horizontal">
+      <label class="col-sm-1">Date</label>
+      <div class="col-sm-3">
+        <input class="form-control">
+      </div>
+    </div>
+    <div class="form-horizontal">
+      <label class="col-sm-1">Approved By</label>
+      <div class="col-sm-3">
+        <input class="form-control" placeholder="Approved By" disabled>
+      </div>
+    </div>
+    <div class="form-horizontal">
+      <label class="col-sm-1">Payment Ref.No</label>
+      <div class="col-sm-3">
+        <input class="form-control" placeholder="Payment Ref.No" disabled>
+      </div>
+    </div>
+    <br>
+    <div class="form-horizontal">
+      <label class="col-sm-1">A/C Dept</label>
+      <div class="col-sm-2">
+        <input class="form-control" placeholder="A/C Department" disabled>
+      </div>
+    </div>
+    <div class="text-center">
+      <button type="button" class="btn btn-success" style="margin-right:10px" onclick="location.href='success.jsp'">Submit</button>
+      <button type="button" class="btn btn-warning"  onclick="location.href='form.jsp'">Cancel</button>
+    </div>
+  </div>
+</div>
+</body>
+</html>
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+VIEW MY LCF(on click of this button in emp home page)
+
+<!DOCTYPE html>
+<html >
+<head>
+
+<meta charset="UTF-8">
+<title>view my lcf</title>
+<script src="http://s.codepen.io/assets/libs/modernizr.js" type="text/javascript"></script>
+<link rel="stylesheet" href="css/normalize.css">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body style="background:#E6E6FA">
+<h1 align="center"> My Local Conveyance Form</h1>
+<br>
+<div class="container">
+<div class="row">
+<table class="table-bordered" align="center">
+				  <thead>
+					<tr>
+					  <th>LFC Id</th>
+					  <th>SI.NO</th>
+					  <th>Travel Date</th>
+					  <th>Mode id</th>
+					  <th>Distance</th>
+					  <th>Location</th>
+					  <th>Browse</th>	
+					</tr>
+				  </thead>
+				  <tr>
+				  <td><input type="text"></td>
+					  <td><input type="text"></td>
+					  <td><input type="text"></td>
+					  <td><input type="text"></td>
+					  <td><input type="text"></td>
+					  <td><input type="text"></td>
+					  <td><input type="text"></td>
+				   </tr>
+				   <tr>
+				  <td><input type="text"></td>
+					  <td><input type="text"></td>
+					  <td><input type="text"></td>
+					  <td><input type="text"></td>
+					  <td><input type="text"></td>
+					  <td><input type="text"></td>
+					  <td><input type="text"></td>
+				   </tr>
+				   <tr>
+				  <td><input type="text"></td>
+					  <td><input type="text"></td>
+					  <td><input type="text"></td>
+					  <td><input type="text"></td>
+					  <td><input type="text"></td>
+					  <td><input type="text"></td>
+					  <td><input type="text"></td>
+				   </tr>
+</div>
+</div>
+</table>
+</body>
+</html>
+---------------------------------------------------------------------------------------------------------------------------------------------------------
+
+VIEW OTHERS LCF
+
+<!DOCTYPE html>
+<html >
+<head>
+
+<meta charset="UTF-8">
+<title>view my lcf</title>
+<script src="http://s.codepen.io/assets/libs/modernizr.js" type="text/javascript"></script>
+<link rel="stylesheet" href="css/normalize.css">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body style="background:#E6E6FA">
+<h1 align="center">Direct Subordinates Local Conveyance Form</h1>
+<br>
+<div class="container">
+<div class="row">
+<table class="table-bordered" align="center">
+				  <thead>
+					<tr>
+					  <th>LFC Id</th>
+					  <th>Employee Name</th>
+					  <th>Submitted On</th>
+					  <th>Approved By</th>
+					  <th>Approved Date</th>
+					  <th>Status</th>
+					  <th>Amount</th>	
+					</tr>
+				  </thead>
+				  <tr>
+					  <td><input type="text"></td>
+					  <td><input type="text"></td>
+					  <td><input type="text"></td>
+					  <td><input type="text"></td>
+					  <td><input type="text"></td>
+					  <td><input type="text"></td>
+					  <td><input type="text"></td>
+				   </tr>
+				   <tr>
+				      <td><input type="text"></td>
+					  <td><input type="text"></td>
+					  <td><input type="text"></td>
+					  <td><input type="text"></td>
+					  <td><input type="text"></td>
+					  <td><input type="text"></td>
+					  <td><input type="text"></td>
+				   </tr>
+				   <tr>
+				      <td><input type="text"></td>
+					  <td><input type="text"></td>
+					  <td><input type="text"></td>
+					  <td><input type="text"></td>
+					  <td><input type="text"></td>
+					  <td><input type="text"></td>
+					  <td><input type="text"></td>
+				   </tr>
+</div>
+</div>
+</table>
+</body>
+</html>
+------------------------------------------------------------------------------------------------------------------------------------
+
+MODIFY TRAVEL MODE(in admin page)
+
+<!DOCTYPE html>
+<html >
+<head>
+
+<meta charset="UTF-8">
+<title>view my lcf</title>
+<script src="http://s.codepen.io/assets/libs/modernizr.js" type="text/javascript"></script>
+<link rel="stylesheet" href="css/normalize.css">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body style="background:#E6E6FA">
+<h1 align="center">Travel Mode Master</h1>
+<br>
+<div class="container">
+<div class="row">
+<table class="table-bordered" align="center">
+					<thead>
+					<tr>
+					  <th>Mode Id</th>
+					  <th>Mode Name</th>
+					  <th>Rate</th>
+					</tr>
+					</thread>
+					<tr>
+					  <td><input type="text"></td>
+					  <td><input type="text"></td>
+					  <td><input type="text"></td>
+					</tr>
+					<tr>
+					  <td><input type="text"></td>
+					  <td><input type="text"></td>
+					  <td><input type="text"></td>
+					</tr>
+					<tr>
+					  <td><input type="text"></td>
+					  <td><input type="text"></td>
+					  <td><input type="text"></td>
+					</tr>
+</div>
+</div>
+</table>
+</body>
+</html>
+----------------------------------------------------------------------------------------------------------------------
+
