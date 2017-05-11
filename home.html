@@ -1,0 +1,154 @@
+
+<html>
+<head>
+	<title>home</title>
+	
+	<style>
+	
+	div.tab {
+    
+     border:none;
+     outline:none;
+}
+
+
+div.tab button {
+    background-color: inherit;
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    transition: 0.3s;
+    font-size: 17px;
+     
+}
+
+/* Change background color of buttons on hover */
+/* div.tab button:hover {
+    outline:none;
+    background-color:#F07298; 
+    color:white;
+} */
+
+/* Create an active/current tablink class */
+div.tab button.active {
+    outline:none;
+    border:none;
+    border-style:dashed;
+    border-color:lightgrey lightgrey #F07298;
+    color:#F07298;
+}
+
+
+.tabcontent {
+margin-top:20px;
+    display: none;
+    padding: 6px 12px;
+    border: 1px solid #ccc;
+    border-top: none;
+}
+	
+	</style>
+	
+	    <script>
+function opentab(evt, tabname) {
+    var i, tabcontent, tablinks;
+    tabcontent = document.getElementsByClassName("tabcontent");
+    for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+    }
+    tablinks = document.getElementsByClassName("tablinks");
+    for (i = 0; i < tablinks.length; i++) {
+        tablinks[i].className = tablinks[i].className.replace(" active", "");
+    }
+    document.getElementById(tabname).style.display = "block";
+    evt.currentTarget.className += " active";
+    
+    
+    
+    
+}
+
+
+</script>
+</head>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<body style="background-color:white ;">
+
+
+
+
+
+    <div  style = "margin: 0 auto;">
+       
+	<div style = "width: 98%;  min-height:98%; height:auto;position:relative; background-color:  ; margin: 0 auto;overflow:auto;
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);border: 1px solid #3CBE9D ;  ">
+ 
+	
+	
+	<div    style="float:left; width:20%;height:100%;background-color:darkorange;position: relative;   ">
+	
+	
+	
+
+	
+	
+	</div>
+	
+		<div    style="float:left;left:20%;width:80%;height:10%;background-color:lightgrey;   ">
+		
+		
+		<div class="tab" >
+  <button class="tablinks" onclick="opentab(event, 'home')" id="defaultOpen">home</button>
+  <button class="tablinks" onclick="opentab(event, 'about us')">about us</button>
+  <button class="tablinks" onclick="opentab(event, 'services')">services</button>
+
+    <button class="tablinks" onclick="opentab(event, 'blog')">blog</button>
+    <button class="tablinks" onclick="opentab(event, 'Portfolio')">Portfolio</button>
+    <button class="tablinks" onclick="opentab(event, 'contact us')">contact us</button>
+  
+</div>
+		
+		</div>
+	<div  style="float:left;top:10%left:20%;width:80%;height:90%; position:relative;  ">
+	
+	<div id="home" class="tabcontent"  style="border: none;" ></div>
+	<div id="about us" class="tabcontent"  style="border: none;"  >
+	
+	<p>The Management Team</p>
+	<img   style="margin-left: 15px;width:80px;margin-top: 10px;border-radius: 50px; background-color:red; "
+				src="WebContent/static/img/Manager.jpg"> 
+	<p>Gobinath raju</p>
+	
+	
+	
+	</div>
+	
+	<div id="services" class="tabcontent"  style="border: none;"  ></div>
+	
+	<div id="blog" class="tabcontent"   style="border: none;" ></div>
+	
+	<div id="Portfolio" class="tabcontent"  style="border: none;"  ></div>
+	
+	<div id="contact us" class="tabcontent"  style="border: none;"  ></div>
+	
+	</div>
+</div>
+ </div>
+
+</body>
+</html>
