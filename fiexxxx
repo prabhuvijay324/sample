@@ -1,0 +1,2664 @@
+
+
+
+AddPatient.txt
+
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<!-- Plugins css -->
+        <link href="${pageContext.request.contextPath}/assets/pages/plugins/timepicker/bootstrap-timepicker.min.css" rel="stylesheet">
+        <link href="${pageContext.request.contextPath}/assets/pages/plugins/mjolnic-bootstrap-colorpicker/css/bootstrap-colorpicker.min.css" rel="stylesheet">
+        <link href="${pageContext.request.contextPath}/assets/pages/plugins/bootstrap-datepicker/css/bootstrap-datepicker.min.css" rel="stylesheet">
+        <link href="${pageContext.request.contextPath}/assets/pages/plugins/clockpicker/bootstrap-clockpicker.min.css" rel="stylesheet">
+        <link href="${pageContext.request.contextPath}/assets/pages/plugins/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
+        <script src="${pageContext.request.contextPath}/assets/pages/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
+        <!-- Modernizr js -->
+        <script src="${pageContext.request.contextPath}/assets/pages/js/modernizr.min.js"></script>
+        
+        <script src="${pageContext.request.contextPath}/assets/growl/jquery.growl.js" type="text/javascript"></script>
+		<link href="${pageContext.request.contextPath}/assets/growl/jquery.growl.css" rel="stylesheet" type="text/css" />
+        
+        
+ <style type="text/css">
+           .select2-search__field{
+            border: 0px solid #fff !important;
+           }
+           .form-control{
+            text-transform: uppercase;
+           }
+           
+           input[type=date]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    display: none;
+}
+      
+</style>
+<script type="text/javascript">
+function redirectToPatientList() {			 		
+		window.location.href="../pages/patientslist";
+}
+</script>
+
+<input id="hiddenCount" value="0" type="hidden"/>
+<input id="hiddenSaveCount" value="0" type="hidden"/>
+
+
+  <!-- ============================================================== -->
+        <!-- Start right Content here -->
+        <!-- ============================================================== -->
+        <form role="form"  name="addPatientForm" >
+        <div class="wrapper">
+            <div class="container">
+
+                <!-- Page-Title -->
+                <div class="row">
+
+
+                    <div class="col-sm-12">
+                         <div class="btn-group pull-right m-t-15">
+                            <button type="button" class="btn btn-custom waves-effect waves-light" data-toggle="dropdown" onclick="redirectToPatientList()" aria-expanded="false">Back to Patient List </button>
+                            
+
+                        </div>
+
+                       <!--  <div class="btn-group pull-right m-t-15">
+                            <button type="button" class="btn btn-custom dropdown-toggle waves-effect waves-light"
+                                    data-toggle="dropdown" aria-expanded="false">Settings <span class="m-l-5"><i
+                                    class="fa fa-cog"></i></span></button>
+                            <div class="dropdown-menu dropdown-menu-right">
+                                <a class="dropdown-item" href="#">By Patients</a>
+                                <a class="dropdown-item" href="#">By Surgeon</a>
+                                <a class="dropdown-item" href="#">By Date</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="#">All</a>
+                            </div>
+
+                        </div> -->
+                        <h4 class="page-title">Add Patient</h4>
+
+                         
+
+                    </div>
+                </div>
+                
+                <!-- end row -->
+                
+
+
+                <div class="row">
+                    <div class="col-12"> 
+                         <div class="card-box" style="background-color: #fefff1; border-top: 5px solid #cfd2ab;"> 
+                            <h5  style="font-weight: 600;">Enter Patient Profile Information</h5>
+                            <hr>
+                            <div class="col-sm-12 col-xs-12 col-md-12" style="vertical-align: middle;margin: 0 auto;">
+                                <div class="row p-20">
+
+                                                    <div class="col-xs-12 col-sm-4">
+                                                        <div class="form-group clearfix">
+                                                            <label for="fname">Patient Photo</label>
+                                                            <div>
+                                                                <img class="rounded-circle" id="patImg" src="${pageContext.request.contextPath}/assets/pages/images/users/Default_carepartner_female.svg" width="50px !important" height="50px !important">
+                                                                <input style="display:none;cursor:pointer;"  type="file" name="logofile" id="logo"  onchange="readURL(this)" value="${pageContext.request.contextPath}/repository/users/user_default.png" accept="image/x-png, image/gif, image/jpeg" class="hidden"/>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+
+                                                     <div class="col-xs-12 col-sm-4">
+                                                        <div class="form-group clearfix">
+                                                            <label for="fname"> First Name<span class="text-danger">*</span></label>
+                                                            <div>
+                                                                <input id="fNameId" name="fname" placeholder="First name" type="text" maxlength="120" class="required form-control">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-xs-12 col-sm-4">
+                                                        <div class="form-group clearfix">
+                                                            <label for="lname">Last Name<span class="text-danger">*</span></label>
+                                                            <div>
+                                                                <input id="lNameId" name="lname" type="text" placeholder="Last name" maxlength="120" class="required form-control">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-xs-12 col-sm-4">
+                                                        <div class="form-group clearfix">
+                                                            <label for="fname">Upload Photo</label>
+                                                            <div>
+                                                                <input id="uploadImage" name="fname" type="file" class=" ">
+                                                            </div>
+                                                             <input type="hidden" id="imageChange" name="imagechange" value="0">
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-xs-12 col-sm-4">
+                                                        <div class="form-group clearfix">
+                                                            <label for="gender">Gender<span class="text-danger">*</span></label>
+                                                            <div>
+                                                                <!-- <input class="form-control required" id="userName" name="userName" type="text"> -->
+
+                                                                <select class="form-control required custom-select mb-2 mr-sm-2 mb-sm-0" id="genderSelectId">
+                                                                    <option value="0" selected>Choose</option>
+                                                                    <option value="Male">Male</option>
+                                                                    <option value="Female">Female</option>
+                                                                </select>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-xs-12 col-sm-4">
+                                                        <div class="form-group clearfix">
+                                                            <label for="dob">Date of Birth<span class="text-danger">*</span></label>
+                                                            <div>
+                                                                <input id="dobId" name="dob" type="date" class="required form-control">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                   
+                                                </div><!-- end row -->
+                            </div>
+                         </div>
+                     </div>
+                 </div>
+              
+                
+                
+               
+                         
+
+               <div class="row">
+                    <div class="col-12"> 
+                         <div class="card-box" style="background-color: #effcfa; border-top: 5px solid #b5d8d3;"> 
+                            <h5  style="font-weight: 600;">Enter Patient Contact Information (This will be used to notify the patient about their care journey)</h5>
+                            <hr>
+                            <div class="col-sm-12 col-xs-12 col-md-12" style="vertical-align: middle;margin: 0 auto;">
+                                <div class="row p-20">
+
+                                                      <div class="col-xs-12 col-sm-4">
+                                                        <div class="form-group clearfix">
+                                                            <label for="email">Email Id<span class="text-danger">*</span></label>
+                                                            <div>
+                                                                <input id="emailId" name="email" placeholder="enter your Email id" type="email" class="required form-control">
+                                                            </div>
+                                                        </div>
+                                                    </div> 
+                                                    <div class="col-xs-12 col-sm-4">
+                                                        <div class="form-group clearfix">
+                                                            <label for="pn">Phone Number</label>
+                                                            <div>
+                                                                <input id="phoneId" name="pn" type="text" placeholder="1-(555)-555-5555" maxlength="15" class="required form-control">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                   
+                                                </div><!-- end row -->
+                            </div>
+                         </div>
+                     </div>
+                 </div>
+              
+
+
+                 <div class="row">
+                    <div class="col-12"> 
+                         <div class="card-box" style="background-color: #f7feec; border-top: 5px solid #c5dba3;"> 
+                            <h5  style="font-weight: 600;">Enter Patient ID Information (This will be used to  gather information from EHR or other  systems)</h5>
+                            <hr>
+                            <div class="col-sm-12 col-xs-12 col-md-12" style="vertical-align: middle;margin: 0 auto;">
+                                <div class="row p-20">
+
+                                                     <div class="col-xs-12 col-sm-4">
+                                                        <div class="form-group clearfix">
+                                                            <label for="mrn">MRN</label>
+                                                            <div>
+                                                                <input id="mrnId" name="mrn" type="text" placeholder="enter your Mrn Number" maxlength="9"  class="required form-control">
+                                                            </div>
+                                                            <div  style="line-height: 2.5;">
+                                                            <label class="custom-control custom-radio radio radio-primary mb-2 mr-sm-2 mb-sm-0" style="line-height: 1 !important;">
+                                                                <input id="mrnUnknownId"  class="custom-control-input" type="radio" onchange="setMRNnull(this.checked)" checked="checked" >
+                                                                <span class="custom-control-indicator"></span>
+                                                                <span class="custom-control-description"  style="line-height: 1.5;">Unknown</span>
+                                                            </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                              <div class="col-xs-12 col-sm-4">
+                                                        <div class="form-group clearfix">
+                                                            <label for="ssn">SSN</label>
+                                                            <div>
+                                                                <input id="ssnId" name="ssn" type="text" maxlength="9" placeholder="enter your ssn Number"  class="required form-control">
+                                                            </div>
+                                                            <div  style="line-height: 2.5;">
+                                                            <label class="custom-control custom-radio radio radio-primary mb-2 mr-sm-2 mb-sm-0" style="line-height: 1 !important;">
+                                                                <input id="ssnUnknownId" class="custom-control-input" type="radio" onchange="setSSNnull(this.checked)" checked="checked">
+                                                                <span class="custom-control-indicator"></span>
+                                                                <span class="custom-control-description" style="line-height: 1.5;">Unknown</span>
+                                                            </label>
+                                                        </div>
+                                                        </div>
+                                                    </div>
+
+                                                   
+                                                </div><!-- end row -->
+                                                </div>
+                                                </div>
+                                                </div>
+                                                </div><!-- end row -->
+
+
+ <div class="row">
+                    <div class="col-12"> 
+                         <div class="card-box" style="background-color: #f4f4fc; border-top: 5px solid #d8d8ec;"> 
+                            <h5  style="font-weight: 600;">Healthcare Information (This will be used to track and tailor patient care plans)</h5>
+                            <hr>
+                            <div class="col-sm-12 col-xs-12 col-md-12" style="vertical-align: middle;margin: 0 auto;">
+                                <div class="row p-20">
+
+                                                    <div class="col-xs-12 col-sm-4">
+                                                        <div class="form-group clearfix">
+                                                        <c:if test="${practiceUserGroup==0}">
+                                                            <label for="wg">Weight<span class="text-danger">*</span></label>
+                                                        </c:if>
+                                                        <c:if test="${practiceUserGroup==1}">
+                                                            <label for="wg">Weight</label>
+                                                        </c:if>
+                                                            <div>
+                                                                <input id="weightId" name="wg" type="text" placeholder="lbs" maxlength="3" class="required form-control">
+                                                            </div>
+                                                            <br>
+                                                             <!-- <div class="col-xs-12 col-sm-12"> -->
+                                                        <!-- <div class="form-group clearfix"> -->
+                                                            <label for="gender">Are you regular smoker?<span class="text-danger">*</span></label>
+                                                            <div>
+                                                                <!-- <input class="form-control required" id="userName" name="userName" type="text"> -->
+
+                                                                <select class="form-control required custom-select mb-2 mr-sm-2 mb-sm-0" id="regularSmokerselectId">
+                                                                    <option value="0" selected>Select</option>
+                                                                    <option value="True">Yes, I smoke regularly</option>
+                                                                    <option value="False">No, I don't smoke</option>
+                                                                </select>
+
+                                                            <!-- </div> -->
+                                                        <!-- </div> -->
+                                                    </div>
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-xs-12 col-sm-4">
+                                                        <div class="form-group clearfix">
+                                                        <c:if test="${practiceUserGroup==0}">
+                                                            <label for="hg" style="margin-left: 20px;">Height<span class="text-danger">*</span></label>
+                                                        </c:if>   
+                                                        <c:if test="${practiceUserGroup==1}">
+                                                        <label for="hg" style="margin-left: 20px;">Height</label>
+                                                        </c:if>
+                                                            <div class="col-12">
+                                                                <div class="col-6 float-right">
+                                                                <input id="inchId" name="hg" type="text" maxlength="2" placeholder="inch" class="required form-control">
+                                                            </div>
+                                                            <div class="col-6">
+                                                                <input id="heightId" name="hg" type="text" placeholder="feet" maxlength="1" class="required form-control">
+                                                            </div>
+                                                            </div>
+
+                                                            <br>
+                                                          
+                                                             <!-- <div class="col-xs-12 col-sm-4"> -->
+                                                        <!-- <div class="form-group clearfix"> -->
+                                                            <label for="gender">Are you diabetic?<span class="text-danger">*</span></label>
+                                                            <div>
+                                                                <!-- <input class="form-control required" id="userName" name="userName" type="text"> -->
+
+                                                                <select class="form-control required custom-select mb-2 mr-sm-2 mb-sm-0" id="diabeticSelectId">
+                                                                    <option value="0" selected>Select</option>
+                                                                    <option value="True">Yes, I am diabetic</option>
+                                                                    <option value="False">No, I am not diabetic</option>
+                                                                </select>
+
+                                                            <!-- </div> -->
+                                                        <!-- </div> -->
+                                                    </div>
+
+                                                        </div>
+                                                    </div> 
+                                                    <div class="col-xs-12 col-sm-4">
+                                                        <div class="form-group clearfix">
+                                                            <label for="bmi">BMI (Auto Calculated)</label>
+                                                            <div>
+                                                                <input id="bmi" name="bmi" type="text" placeholder="" class=" form-control" readonly="">
+                                                            </div>
+
+                                                            <br>
+                                                             <!-- <div class="col-xs-12 col-sm-4"> -->
+                                                        <!-- <div class="form-group clearfix"> -->
+                                                            <label for="gender">Do you have blood pressure?<span class="text-danger">*</span></label>
+                                                            <div>
+                                                                <!-- <input class="form-control required" id="userName" name="userName" type="text"> -->
+
+                                                                <select class="form-control required custom-select mb-2 mr-sm-2 mb-sm-0" id="bloodPressureSelectId">
+                                                                    <option value="0" selected>Select</option>
+                                                                    <option value="True">Yes, I do have</option>
+                                                                    <option value="False">No, I don't have</option>
+                                                                </select>
+
+                                                            <!-- </div> -->
+                                                        </div>
+
+                                                        </div>
+                                                    </div>
+                                                   
+                                                </div><!-- end row -->
+                                                </div>
+                                                </div>
+                                                </div>
+                                                </div><!-- end row -->
+
+
+
+                       <div class="row">
+                       
+                       <c:set var="bPcount" value="${maxBodyPartCount-1}" /> 
+                       <c:forEach  var="cnt"  begin="0" end="${bPcount}" step="1">
+                       <%-- <c:set var="cnt" value="${pat.bodyDivId}" /> --%>
+                    <div class="col-12" id="addBodyPartDiv_${cnt}" <c:if test="${cnt ne 0}" >style="display: none;"</c:if> > 
+                         <div class="card-box" style="background-color: #fff; border-top: 5px solid #dedddd;"> 
+                            <h5  style="font-weight: 600;">Select Body Part (After the selection of the body part kindly configure the details like surgeon, date of surgery, group...)</h5>
+                            <hr>
+                            <div class="col-sm-12 col-xs-12 col-md-12" style="vertical-align: middle;margin: 0 auto;">
+                                <div class="row p-20">
+
+
+
+                                    <div class="col-xs-12 col-sm-4" id="bodyPartLocationDiv_${cnt}">
+                                                        <div class="form-group clearfix">
+                                                            <label for="sbl">SELECT BODY LOCATION<span class="text-danger">*</span></label>
+                                                            <div>
+	
+                                        <select class="form-control required custom-select mb-2 mr-sm-2 mb-sm-0" id="selectBodyPartLocTypeId_${cnt}" onchange="selectBodyPartLocationType(this.id);">
+                                                        <option value="0" selected>Select Body Location</option>
+                                                        <option value="35">Upper Body</option>
+                                                        <option value="36">Lower Body</option>
+                                                        <!-- <option value="37">Knee</option> -->
+                                                        
+                                        </select>
+
+
+                                        
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                <div class="col-xs-12 col-sm-4" id="bodyPartDiv_${cnt}">
+                                                        <div class="form-group clearfix">
+                                                            <label for="sbp">SELECT BODY PART<span class="text-danger">*</span></label>
+                                                            <div>
+                                                               <select class="form-control required custom-select mb-2 mr-sm-2 mb-sm-0" id="selectBodyPartId_${cnt}" onchange="StageWorkflowIsOrNo(this.id);">
+                                                                     <option value="0" selected>Choose</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                    </div>
+
+
+
+
+
+
+<br>
+        <h5>Configure the details like (Surgeon, Date of surgery, Groups...)</h5>
+        <hr>
+<br>
+                
+                        <div class="">
+                                         <h6 class="header-title m-t-0 m-b-20">CONFIGURE SELECTED BODY PART</h6>
+                                 
+                                    <div class="row">
+                                    
+                                    <div class="col-xs-12 col-sm-4" id="selecetedDosDiv_${cnt}">
+                                                        <div class="form-group clearfix">
+                                                            <label for="dos">Date of Surgery</label>
+                                                            <div>
+                                                                <input id="selecetedDosId_${cnt}" name="dos" type="date" class="required form-control" onchange="selectDosBodyPart(this.id);">
+                                                            </div>
+                                                           
+                                                        </div>
+                                                    </div>
+                                    
+                                     <div class="col-xs-12 col-sm-4" id="hospitalSelectDiv_${cnt}" style="display: none;">
+                                                        <div class="form-group clearfix">
+                                                            <label for="sn">Hospital Name<span class="text-danger">*</span></label>
+                                                            <div>
+                                                                <select class="form-control required custom-select mb-2 mr-sm-2 mb-sm-0" id="hospitalSelectId_${cnt}" onchange="hospitalSelectBodyPart(this.id);">
+                                                                    <option value="0" selected>Select Hospital</option>
+                                                                    <c:forEach items="${hospitalList}" var="hospital">
+																		<c:if test="${hospital.name ne 'Unknown Hospital' }">
+																			<option value="${hospital.hospitalId}">${hospital.name}</option>
+																		</c:if>
+																	</c:forEach>
+                                                                </select>
+
+                                                            </div>
+                                                            
+                                                        </div>
+                                                    </div>	
+                                                    
+                                                     <div class="col-xs-12 col-sm-4" id="selectedSurgeonDiv_${cnt}" >
+                                                        <div class="form-group clearfix">
+                                                            <label for="sn">Surgeon Name<span class="text-danger">*</span></label>
+                                                            <div>
+                                                                <select class="form-control required custom-select mb-2 mr-sm-2 mb-sm-0" id="selectedSurgeonId_${cnt}" onchange="getSurgeon(this.id);">
+                                                                    <option value="0" selected>Select Surgeon</option>
+                                                                    <c:forEach items="${surgeonList}" var="surgeon">
+																		<c:if test="${surgeon.firstName ne 'Unknown' }">
+																		 <option value="${surgeon.surgeonId}">Dr. ${surgeon.firstName} ${surgeon.lastName}</option>
+																		</c:if>
+																	</c:forEach>
+                                                                </select>
+
+                                                            </div>
+                                                            
+                                                        </div>
+                                                    </div>
+
+                                              
+                                                     <div class="col-xs-12 col-sm-4" id="selectedPtDiv_${cnt}">
+                                                        <div class="form-group clearfix">
+                                                            <label for="pt">Payor Type<span class="text-danger">*</span></label>
+                                                            <div>
+                                                               <select class="form-control required custom-select mb-2 mr-sm-2 mb-sm-0" id="selectedPtId_${cnt}" onchange="payorTypeBodyPart(this.id);">
+                                                                    <option value="0" selected>Choose</option>
+                                                                    <option value="1">Commercial</option>
+																	<option value="2">Medicare</option>
+																	<option value="3">Medicaid</option>
+																	<option value="4">Others</option>
+                                                                </select>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                <div class="col-xs-12 col-sm-4" id="selectedMakoDiv_${cnt}">
+                                                        <div class="form-group clearfix">
+                                                            <label for="mako">MAKO</label>
+                                                            <div>
+                                                               <select class="form-control required custom-select mb-2 mr-sm-2 mb-sm-0" id="selectedMakoId_${cnt}" >
+                                                                     <option value="0" selected>Choose</option>
+                                                  					 <option value="Yes">Yes</option>
+                                                    				 <option value="No">No</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                <div class="col-xs-12 col-sm-4" id="selectedCjrDiv_${cnt}" style="display: none;">
+                                                        <div class="form-group clearfix">
+                                                            <label for="cjr">CJR</label>
+                                                            <div>
+                                                               <select class="form-control required custom-select mb-2 mr-sm-2 mb-sm-0" id="selectedCjrId_${cnt}" onchange="selectBodypartCjr(this.id)">
+                                                                      <option value="0" selected>Choose</option>
+                                                   		 			  <option value="Yes">Yes</option>
+                                                    				  <option value="No">No</option>
+                                                                </select>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                             <div class="col-xs-12 col-sm-4" id="selectedhicDiv_${cnt}" style="display: none;">
+                                                        <div class="form-group clearfix">
+                                                            <label for="gender">HIC #/ Medicare ID</label>
+                                                            <div>
+                                                               <!-- <button type="btn" class="text-left required btn btn-default mb-2 mr-sm-2 mb-sm-0 form-control" data-toggle="modal" data-target="#myModal">View Workflow</button> -->
+                                                               <input id="selectedhicId_${cnt}" onchange="selectBodyPartHic(this.id);" name="hic" type="text" placeholder="Enter Number / Id" maxlength="10" class="required form-control">
+                                                            </div>
+                                                            </div>
+                                                        </div>
+                                                    <!-- </div> -->
+											<div class="col-xs-12 col-sm-4" id="dischargeDiv_${cnt}" style="display: none;">
+                                                        <div class="form-group clearfix">
+                                                            <label for="dosd">Discharge Date<!-- <span class="text-danger">*</span> --></label>
+                                                            <div>
+                                                                <input id="dischargeDateId_${cnt}" name="dosd" type="date" class="required form-control" onchange="selectBodyPartDischargeDate(this.id);">
+                                                            </div>
+                                                           
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-xs-12 col-sm-4" id="dischargewithDiv_${cnt}" style="display: none;">
+                                                        <div class="form-group clearfix">
+                                                            <label for="pt">Discharge With<!-- <span class="text-danger">*</span> --></label>
+                                                            <div>
+                                                               <select class="form-control required custom-select mb-2 mr-sm-2 mb-sm-0" id="dischargeWithSelectId_${cnt}">
+                                                                    <option value="0" selected>Choose</option>
+                                                                    
+                                                                    <!-- <option value="9">Medicaid</option> -->
+                                                                </select>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                <div class="col-xs-12 col-sm-4" id="dischargeLocationDiv_${cnt}" style="display: none;">
+                                                        <div class="form-group clearfix">
+                                                            <label for="mako">Discharge Location<!-- <span class="text-danger">*</span> --></label>
+                                                            <div>
+                                                               <select class="form-control required custom-select mb-2 mr-sm-2 mb-sm-0" id="dischargeLocationTypeId_${cnt}" onchange="dischargeLocationSelect(this.value)">
+                                                                    <option value="0" selected>Choose</option>
+                                                                    <c:forEach var="dischargeTypes" items="${dischargeType}">
+	                                              					<option value="${dischargeTypes}">${dischargeTypes}</option>
+	                                              					</c:forEach>
+                                                                    
+                                                                </select>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-xs-12 col-sm-4" id="snfDiv_${cnt}" style="display: none;">
+                                                        <div class="form-group clearfix">
+                                                            <label for="pt">SNF Contact Name<!-- <span class="text-danger">*</span> --></label>
+                                                            <div>
+                                                               <input id="snfCnId_${cnt}" name="cn" type="text" maxlength="120" placeholder="Enter your snf contact name" class="required form-control">
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                <div class="col-xs-12 col-sm-4" id="snfContactDiv_${cnt}" style="display: none;">
+                                                        <div class="form-group clearfix">
+                                                            <label for="mako">SNF Contact Phone<!-- <span class="text-danger">*</span> --></label>
+                                                            <div>
+                                                                <input id="snfCpId_${cnt}" name="cp" type="text" placeholder="enter your Snf Phone Number" maxlength="10" class="required form-control">
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+ 														<div class="col-xs-12 col-sm-4" id="snfNameDiv_${cnt}" style="display: none;">
+                                                        <div class="form-group clearfix" >
+                                                            <label for="mako">SNF Name<!-- <span class="text-danger">*</span> --></label>
+                                                            <div>
+                                                              <select class="form-control required custom-select mb-2 mr-sm-2 mb-sm-0" id="snfNameId_${cnt}">
+                                                                    <option value="0" selected>Choose SNF</option>
+                                                                    <!-- <option value="9">Medicaid</option> -->
+                                                                </select>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                     <div class="col-xs-12 col-sm-12 text-right">
+                                                        <div class="form-group clearfix">
+                                                            <!-- <label for="gender">Workflow</label> -->
+                                                            <div>
+                                                               <!--  <button type="btn" class="text-right btn btn-defaultform-control" data-toggle="modal" data-target="#myModal">View Workflow</button> -->
+                                                               <button type="button" id="addButtonId_${cnt}" class="btn btn-secondary mb-2 mr-sm-2 mb-sm-0" onclick="validateBodyForm();">Add another body part</button> 
+                                                               <button type="button" id="removeButtonId_${cnt}" class="btn btn-danger" style="display: none;" onclick="removeBodyPart(${cnt});">Remove Body Part</button>
+                                                            </div>
+                                                        </div>
+                                                        </div>
+                                                    <!-- </div> -->
+                                                   
+                                                </div><!-- end row -->
+                                                </div>
+                                                </div>
+                                                </div>
+                                                </div>
+</c:forEach>                                 
+                                                </div>
+
+
+
+                                                <script type="text/javascript">
+
+/* call onload with table id */
+function TR_set_toggle()
+{
+/* toggleRow method */
+var toggleRow = function()
+{
+this.style.display = ((this.style.display == '') ? 'none' : '');
+return false;
+}
+
+for (var oTable, a = 0; a < arguments.length; ++a)
+{
+oTable = document.getElementById(arguments[a]);
+         var r = 0, row, rows = oTable.rows;
+         while (row = rows.item(r++))
+row.toggle = toggleRow;
+}
+
+/* convenience function */
+self.toggleRow = function(row_id)
+{
+document.getElementById(row_id).toggle();
+}
+}
+
+onload = function()
+{
+TR_set_toggle('datatable-buttons');
+}
+</script>
+
+
+<style type="text/css">
+    #datatable-buttons .td_head{
+        width: 300px;
+    }
+   /* #foo1, #foo2, #foo3, #foo4 #foo5{
+        display: none;
+    }*/
+</style>
+
+<!-- Notes Modal -->
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <!-- <h4 class="modal-title" id="myModalLabel">Total Knees</h4> -->
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+
+        </div>
+        <div class="modal-body">
+          
+          <div class="inbox-widget nicescroll" style="height: 330px;">
+            <p style="color: #007bff; font-size: 22px; font-weight: 600;">Total Knees</p>
+            <hr>
+                            <table id="datatable-buttons" cellspacing="0" width="100%">
+                                <tr>
+                                    <td class="td_head">&#8226; KOOS JR</td>
+                                    <td class="td_abt" style="color: #007bff;">
+                                     <a href="#null" onclick="toggleRow('foo1')">About</a> </td>
+                                    <td> <a href=""> View </a></td>
+                                    <br>
+
+                                   <!--  <td class="para"  colspan="3" style="display: flex;">
+                                        <span style="font-weight:700;">Created by:</span> <br>Michael Johnson
+                                    <span style="font-weight:700;"">Created Date:</span> 03/22/2018
+                                    <span style="font-weight:700;"">Modified Date:</span> 04/02/2018
+                                </td>
+                                 -->
+
+                                </tr>
+                                
+
+
+                                <tr id="foo1">
+<td> <span style="font-weight:700;">Created by:</span> <br>Michael Johnson
+                                   
+                                    </td>
+<td> <span style="font-weight:700;"">Created Date:</span> 03/22/2018</td>
+<td><span style="font-weight:700;"">Modified Date:</span> 04/02/2018</td>
+
+</tr>
+
+
+                                
+
+                                <tr>
+                                    <td class="td_head">&#8226; PROMIS 10</td>
+                                    <td class="td_abt1" style="color: #007bff;"> 
+                                    <a href="#null" onclick="toggleRow('foo2')">About</a>
+                                     </td>
+                                    <td> <a href=""> View </a></td>
+                                </tr>
+                                
+                                
+                                <tr id="foo2">
+<td> <span style="font-weight:700;">Created by:</span> <br>Michael Johnson
+                                   
+                                    </td>
+<td> <span style="font-weight:700;"">Created Date:</span> 03/22/2018</td>
+<td><span style="font-weight:700;"">Modified Date:</span> 04/02/2018</td>
+
+</tr>
+                               
+                                <tr>
+                                    <td class="td_head">&#8226; Other CJR Surveys</td>
+                                     <td class="td_abt2" style="color: #007bff;">
+                                         <a href="#null" onclick="toggleRow('foo3')">About</a>
+                                     </td>
+                                    <td> <a href=""> View </a></td>
+                                </tr>
+
+                                
+                                
+                                 <tr id="foo3">
+<td> <span style="font-weight:700;">Created by:</span> <br>Michael Johnson
+                                   
+                                    </td>
+<td> <span style="font-weight:700;"">Created Date:</span> 03/22/2018</td>
+<td><span style="font-weight:700;"">Modified Date:</span> 04/02/2018</td>
+
+</tr>
+
+                               
+                            </table>        
+                            <br>
+
+
+                         </div>                       
+                         </div>                       
+                         </div>                       
+                         </div>                       
+                         </div>                       
+                                               
+<div class="container">
+ <div class="row">
+                    <div class="col-12 text-center"> 
+                        <button type="button" id="saveExitPatient" class="btn btn-primary" onclick="validateSave();">Save & Exit </button>
+                        <button type="button" class="btn btn-success" id="saveAddPatient" onclick="validatePatientForm();">Add Patient</button>
+                    </div>
+                </div>
+                </div>
+            </div> 
+            </div> 
+            </div> 
+            </form>    
+            </div> 
+            </div> 
+             </div> <!-- End wrapper -->
+<%-- <div id="loading-image"
+	style="position: fixed; left: 0px; top: 0px; width: 100%; height: 100%; z-index: 9999; margin-left: 40%; margin-top: 20%; display: none">
+	<img
+		src="${pageContext.request.contextPath}/assets/admin/images/page-loader.gif"
+		alt="Loading..." />
+</div>
+
+
+<div class="modal fade" id="pleaseWaitDialog" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-hidden="true" style="padding-top:15%; overflow-y:visible;">
+<div class="modal-dialog modal-m">
+
+
+<img
+		src="${pageContext.request.contextPath}/assets/admin/images/page-loader.gif"
+		alt="Loading..." />
+<div id="loader"></div> --%>
+
+<div class="animatedModal" id="animatedModal"><!-- Place at bottom of page --></div>
+
+<style>
+.animatedModal {
+    display:    none;
+    position:   fixed;
+    z-index:    1000;
+    top:        0;
+    left:       0;
+    height:     100%;
+    width:      100%;
+    background: rgba( 255, 255, 255, .8 ) 
+                url('../assets/loader.gif') 
+                50% 50% 
+                no-repeat;
+}
+
+body.loading .animatedModal {
+    overflow: hidden;   
+}
+
+body.loading .animatedModal {
+    display: block;
+}
+</style>
+
+       
+ <script>
+            var resizefunc = [];
+        </script>
+
+       
+
+<script>
+/** DOB Future Date **/
+
+
+
+/* var idCount=0;
+$(document).ready(function(){
+	
+		$('#addBodyPartDiv').attr('id','addBodyPartDiv'+idCount);
+		$('#selectBodyLocTypeId').attr('id','selectBodyLocTypeId_'+idCount);
+		$('#selectBodyPartId').attr('id','selectBodyPartId_'+idCount);
+		$('#dosId').attr('id','dosId_'+idCount);
+		$('#hospitalSelectId').attr('id','hospitalSelectId_'+idCount);
+		$('#surgeonSelectId').attr('id','surgeonSelectId_'+idCount);
+		$('#payorDropDownSelect').attr('id','payorDropDownSelect_'+idCount);
+		$('#makoSelectId').attr('id','makoSelectId_'+idCount);
+		$('#cjrSelectId').attr('id','cjrSelectId_'+idCount);
+		$('#hicId').attr('id','hicId_'+idCount);
+		$('#dischargeDateId').attr('id','dischargeDateId_'+idCount);
+		$('#dischargeLocationTypeId').attr('id','dischargeLocationTypeId_'+idCount);
+		$('#snfCnId').attr('id','snfCnId_'+idCount);
+		$('#snfCpId').attr('id','snfCpId_'+idCount);
+		$('#snfNameId').attr('id','snfNameId_'+idCount);
+		
+	});
+ */
+
+$(function(){
+    var dtToday = new Date();
+    var month = dtToday.getMonth() + 1;
+    var day = dtToday.getDate();
+    var year = dtToday.getFullYear();
+    if(month < 10)
+        month = '0' + month.toString();
+    if(day < 10)
+        day = '0' + day.toString();
+    var maxDate = year + '-' + month + '-' + day;
+    $('#dobId').attr('max', maxDate);
+});
+ 
+ var dateControler = {
+		    currentDate : null
+		}
+$(document).on( "change", "#dobId",function( event, ui ){
+	var now = new Date();
+	var selectedDate = new Date($(this).val());
+	if(selectedDate > now) {
+	   $(this).val(dateControler.currentDate)
+	} else {
+		dateControler.currentDate = $(this).val();
+		   }
+});   
+
+function addBodyPart(){
+	
+	var count=$("#hiddenCount").val();
+	if(count==''){
+		count=1;
+		
+	}else{
+		count= parseInt(count)+1;
+		
+	}
+	if(count-1==0)
+	{
+		$('#removeButtonId_0').show();
+	}
+	$("#hiddenCount").val(count);
+	
+	if(count=='2'){
+		$('#addButtonId_'+count).hide();
+		$('#removeButtonId_'+count).show();
+		console.log(" bodyPartCount (addBodyPart) : "+ count);
+	}else{
+		$('#addButtonId_'+count).show();
+		$('#removeButtonId_'+count).show();
+	}
+	$('#addBodyPartDiv_'+count).show();
+	
+}
+
+ function removeBodyPart(cnt){
+	 var count=$("#hiddenCount").val();
+	 var removecount="";
+	 removecount=parseInt(count)-1;
+	 $("#hiddenCount").val(removecount);
+	 if(removecount==0){
+		 $('#addButtonId_'+removecount).show();
+		 $('#removeButtonId_'+removecount).hide();
+	}
+	 else if(removecount==1){
+		 $('#addButtonId_'+removecount).show();
+		 $('#removeButtonId_'+removecount).show();
+	}
+	 else{
+			$('#addButtonId_'+count).hide();
+			$('#removeButtonId_'+count).show();
+			console.log(" bodyPartCount (removeBodyPart) : "+ count);
+	}
+	 	$("#selectBodyPartLocTypeId_"+count).val(0);
+		$("#selectBodyPartId_"+count).val(0);
+		$("#selectedSurgeonId_"+count).val(0);
+		$("#selecetedDosId_"+count).val("");
+		$("#hospitalSelectId_"+count).val(0);
+		$("#selectedPtId_"+count).val(0);
+		$("#selectedMakoId_"+count).val(0);
+		$("#selectedCjrId_"+count).val(0);
+		$("#selectedhicId_"+count).val("");
+		$("#dischargeDateId_"+count).val(0);
+		$("#dischargeWithSelectId_"+count).val(0)
+		$("#dischargeLocationTypeId_"+count).val(0);
+		$("#snfCnId_"+count).val("");
+		$("#snfCpId_"+count).val("");
+		$("#snfNameId_"+count).val(0)
+		$('#addBodyPartDiv_'+cnt).hide();
+} 
+//Image Upload Validation
+ function readURL(input) {
+	 if (fileExtValidate(input) && fileSizeValidate(input)) {
+	  if (input.files && input.files[0]) {
+	    var reader = new FileReader();
+	    reader.onload = function(e) {
+	      $('#patImg').attr('src', e.target.result);
+	    }
+	    reader.readAsDataURL(input.files[0]);
+	    document.getElementById("imageChange").value=1;
+	  }
+	}
+ }
+	$("#uploadImage").change(function() {
+	  readURL(this);
+}); 
+	
+function fileExtValidate(fdata) {
+	var validExt = ".png, .jpeg, .jpg";
+	var filePath = fdata.value;
+	var getFileExt = filePath.substring(filePath.lastIndexOf('.') + 1)
+			.toLowerCase();
+	var pos = validExt.indexOf(getFileExt);
+	if (pos < 0) {
+		$.growl.error({
+			message : "This file is not allowed, upload png or jpg file."
+		});
+		return false;
+	} else {
+		return true;
+	}
+}
+function fileSizeValidate(fdata) {
+	var maxSize = '512';
+	if (fdata.files && fdata.files[0]) {
+		var fsize = fdata.files[0].size / 1024;
+		if (fsize > maxSize) {
+			$.growl
+					.error({
+						message : 'Maximum file size exceed, file size should be below 512 KB'
+					});
+			return false;
+		} else {
+			return true;
+		}
+	}
+}
+
+//FirstName Validation
+$("#fNameId").unbind().bind('change', function(e) {
+	$.fn.firstNameId();
+});
+$.fn.firstNameId = function() {
+	var npFirstNameMandatoryId = $('#fNameId').val();
+	if (npFirstNameMandatoryId != '') {
+		var nameRegex = /^([a-zA-Z]+\s?)*$/;
+
+		if (!nameRegex.test(npFirstNameMandatoryId)) {
+			$.growl
+					.error({
+						message : 'First name should start with an alphabet'
+					});
+			return false;
+		} else {
+			return true;
+		}
+	} else {
+		$.growl.error({
+			message : 'Enter the patient first name'
+		});
+		return false;
+	}
+}
+
+//lastName Validation
+$("#lNameId").unbind().bind('change', function(e) {
+	$.fn.lastNameId();
+});
+
+$.fn.lastNameId = function() {
+	var npLastNameMandatoryId = $('#lNameId').val();
+	if (npLastNameMandatoryId != '') {
+		var nameRegex = /^([a-zA-Z]+\s?)*$/;
+		if (!nameRegex.test(npLastNameMandatoryId)) {
+			$.growl
+					.error({
+						message : 'Last name should start with an alphabet'
+					});
+			return false;
+		} else {
+			return true;
+		}
+	} else {
+		$.growl.error({
+			message : 'Enter the patient last name'
+		});
+		return false;
+	}
+}
+//Gender Validation
+$("#genderSelectId").unbind().bind('change', function(e) {
+	$.fn.genderSelectId();
+});
+
+$.fn.genderSelectId = function() {
+	var gender = $('#genderSelectId option:selected').val();
+	if (gender == '0') {
+		$.growl.error({
+			message : 'Choose the gender'
+		});
+		return false;
+	} else
+		return true;
+}
+
+$.fn.dobId = function() {
+	var today = new Date();
+	var dd = today.getDate();
+	var mm = today.getMonth()+1; //January is 0!
+
+	var yyyy = today.getFullYear();
+	if(dd<10){
+	    dd='0'+dd;
+	} 
+	if(mm<10){
+	    mm='0'+mm;
+	} 
+	var today = dd+'/'+mm+'/'+yyyy;
+	var npDobMandatoryId=$('#dobId').val();
+	if(npDobMandatoryId == ''){
+		$.growl.error({message : 'Select the DOB'});
+		return false;
+	}
+	npDobMandatoryId = today;
+	var npFirstNameMandatoryId = $('#fNameId').val();
+	var npLastNameMandatoryId = $('#lNameId').val();
+	if (npDobMandatoryId != '') {
+		var minDate = Date.parse("01/01/1900");
+		var today = new Date();
+		var DOB = Date.parse(npDobMandatoryId);
+		if ((DOB >= today || DOB <= minDate)) {
+			$.growl.error({
+				message : 'Enter a valid dob for patient'
+			});
+			return false;
+		}  else {
+			$.ajax({
+						type : "POST",
+						async : false,
+						url : "${pageContext.request.contextPath}/pages/checkpatexists",
+						data : {
+							fname : npFirstNameMandatoryId,
+							lname : npLastNameMandatoryId,
+							dob : npDobMandatoryId
+						},
+						success : function(data) {
+							if (data != null) {
+								if (data == 'false') {
+									doesMRNExists = 'false';
+								} else {
+									$.growl.error({
+										message : 'Patient already exists'
+									});
+									doesMRNExists = 'true';
+									console.log('doesMRNExists: ' + doesMRNExists);
+								}
+							}
+						},
+						error : function(e) {
+							console.log('Error: ' + e);
+						}
+					});
+			if (doesMRNExists == 'false') {
+
+				return true;
+			} else {
+				return false;
+			}
+		} 
+	} else {
+		$.growl.error({
+			message : 'Enter a valid dob for patient'
+		});
+		return false;
+	}
+}
+
+//Email Validation
+$("#emailId").unbind().bind('change', function(e) {
+	$.fn.emailId();
+});
+
+$.fn.emailId = function() {
+	var npEmailMandatoryId = $('#emailId').val();
+	var doesEmailExists = 'false';
+	if (npEmailMandatoryId != '') {
+		var emailRegex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+		if (!emailRegex.test(npEmailMandatoryId)) {
+			$.growl.error({
+				message : 'Enter a valid email id for patient'
+			});
+			return false;
+		} else {
+			$
+					.ajax({
+						type : "POST",
+						async : false,
+						url : "${pageContext.request.contextPath}/pages/checkifnpemailexists",
+						data : {
+							email : npEmailMandatoryId
+						},
+						success : function(data) {
+							if (data != null) {
+								if (data == 'false') {
+									doesEmailExists = 'false';
+								} else {
+									$.growl
+											.error({
+												message : 'This email has already been registered'
+											});
+									doesEmailExists = 'true';
+								}
+							}
+						},
+						error : function(e) {
+							console.log('Error: ' + e);
+						}
+					});
+
+			if (doesEmailExists == 'false') {
+				return true;
+			} else {
+				return false;
+			}
+		}
+	} else {
+		$.growl.error({
+			message : 'Enter a valid email id for patient'
+		});
+		return false;
+	}
+}
+
+
+//PhoneNo Validation
+$("#phoneId").unbind().bind('change', function(e) {
+	$.fn.phoneId();
+});
+
+$.fn.phoneId = function() {
+	var npPhoneMandatoryId = $('#phoneId').val();
+	if (npPhoneMandatoryId != '') {
+		var phoneRegex = /\(?([0-9]{3})\)?([ .-]?)([0-9]{3})\2([0-9]{4})/;
+		if (!phoneRegex.test(npPhoneMandatoryId)) {
+			$.growl.error({
+				message : 'Enter a valid phone number for patient'
+			});
+			return false;
+		} else {
+			return true;
+		}
+	} else {
+		return true;
+	}
+}
+
+$.fn.mrnId = function() {
+	var mrn = $('#mrnId').val();
+	var regexForNumber =/^[0-9a-zA-Z\_]+$/;
+	var doesMRNExists='';
+	if (mrn != '') {
+		 if(regexForNumber.test(mrn)){
+			 $
+				.ajax({
+					type : "POST",
+					async : false,
+					url : "${pageContext.request.contextPath}/pages/checkmrnexists",
+					data : {
+						mrn : mrn
+					},
+					success : function(data) {
+						if (data != null) {
+							if (data == 'false') {
+								doesMRNExists = 'false';
+							} else {
+								$.growl
+										.error({
+											message : 'This mrn has already been registered'
+										});
+								doesMRNExists = 'true';
+							}
+						}
+					},
+					error : function(e) {
+						console.log('Error: ' + e);
+					}
+				});
+			 if(doesMRNExists== 'true' || doesMRNExists==''){
+				 return false;
+		 }else{
+				 return true;
+			 }
+		 }else{
+			 $.growl.error({message : " MRN should be alphanumeric value "});
+			 return false;
+		 }
+		document.getElementById("mrnUnknownId").checked = false;
+	} else {
+			return true;
+	}
+}
+
+$.fn.ssnId = function() {
+	var ssn= $('#ssnId').val();
+	var regexForNumber =/^[0-9a-zA-Z\_]+$/;
+	var doesSSNExists='';
+	if (ssn != '') {
+		 if(regexForNumber.test(ssn)){
+			 $
+				.ajax({
+					type : "POST",
+					async : false,
+					url : "${pageContext.request.contextPath}/pages/checkssnexists",
+					data : {
+							ssn : ssn
+					},
+					success : function(data) {
+						if (data != null) {
+							if (data == 'false') {
+								doesSSNExists = 'false';
+							} else {
+								$.growl
+										.error({
+											message : 'This ssn has already been registered'
+										});
+								doesSSNExists = 'true';
+							}
+						}
+					},
+					error : function(e) {
+						console.log('Error: ' + e);
+					}
+				});
+			 if(doesSSNExists== 'true' || doesSSNExists==''){
+				 return false;
+		 }else{
+				 return true;
+			 }
+		 }else{
+			 $.growl.error({message : " SSN should be alphanumeric value "});
+			 return false;
+		 }
+		document.getElementById("ssnUnknownId").checked = false;
+	} else {
+			return true;
+	}
+}
+
+$('#mrnId').unbind().bind('change', function(e) {
+	$.fn.mrnId ();		
+});
+
+$('#ssnId').unbind().bind('change', function(e) {
+	$.fn.ssnId();
+});
+
+$('#mrnId').unbind().bind('keyup', function(e) {
+	var mrn = $('#mrnId').val();
+	if (mrn != '') {
+		document.getElementById("mrnUnknownId").checked = false;
+	} else {
+		document.getElementById("mrnUnknownId").checked = true;
+	} 
+});
+
+$('#ssnId').unbind().bind('keyup', function(e) {
+	var ssn = $('#ssnId').val();
+	if (ssn != '') {
+		document.getElementById("ssnUnknownId").checked = false;
+	} else {
+		document.getElementById("ssnUnknownId").checked = true;
+	} 
+});
+
+function setMRNnull(status){
+	if(status){
+			$('#mrnId').val('');
+		}
+	}
+
+	function setSSNnull(status){
+	if(status){
+			$('#ssnId').val('');
+		}
+	}
+
+	 $("#weightId").unbind().bind('change',function(e) {
+			var height = $('#heightId').val();
+			var weight = $('#weightId').val();
+			var inch = $("#inchId").val();
+
+			
+			var practiceUserGroup=${practiceUserGroup};
+			if(practiceUserGroup==0){
+				
+				if ($.fn.hId() && $.fn.wId() && $.fn.inId()) { 
+					calculateBMI(weight,height,inch);
+			}else{
+					$('#bmi').val("");
+			}
+				
+			}else{
+				
+				if(height!='' && weight!='' && inch!=''){
+					
+					if ($.fn.hId() && $.fn.wId() && $.fn.inId()) { 
+						calculateBMI(weight,height,inch);
+				}else{
+						$('#bmi').val("");
+				}
+					
+				}else{
+					$('#bmi').val("");
+				}
+				
+			}
+			
+	});
+
+	$("#heightId").unbind().bind('change',function(e) {
+			var height = $('#heightId').val();
+			var weight = $('#weightId').val();
+			var inch = $("#inchId").val();
+			
+			var practiceUserGroup=${practiceUserGroup};
+			if(practiceUserGroup==0){
+				
+				if ($.fn.hId() && $.fn.wId() && $.fn.inId()) { 
+					calculateBMI(weight,height,inch);
+			}else{
+					$('#bmi').val("");
+			}
+				
+			}else{
+				
+				if(height!='' && weight!='' && inch!=''){
+					
+					if ($.fn.hId() && $.fn.wId() && $.fn.inId()) { 
+						calculateBMI(weight,height,inch);
+				}else{
+						$('#bmi').val("");
+				}
+					
+				}else{
+					$('#bmi').val("");
+				}
+				
+			}
+	});
+
+	$("#inchId").unbind().bind('change',function(e) {
+
+			var height = $('#heightId').val();
+			var weight = $('#weightId').val();
+			var inch = $("#inchId").val();
+			
+			var practiceUserGroup=${practiceUserGroup};
+			if(practiceUserGroup==0){
+				
+				if ($.fn.hId() && $.fn.wId() && $.fn.inId()) { 
+					calculateBMI(weight,height,inch);
+			}else{
+					$('#bmi').val("");
+			}
+				
+			}else{
+				
+				if(height!='' && weight!='' && inch!=''){
+					
+					if ($.fn.hId() && $.fn.wId() && $.fn.inId()) { 
+						calculateBMI(weight,height,inch);
+				}else{
+						$('#bmi').val("");
+				}
+					
+				}else{
+					$('#bmi').val("");
+				}
+				
+			}
+	});
+		
+	function calculateBMI(weight,height,inch){
+			weight=parseFloat(weight);
+			height=parseInt(height);
+			inch=parseInt(inch);	
+							
+			weight = weight * 0.453592;
+			height = (((height * 12) + inch) * .0254);
+			var bmi = weight / Math.pow(height, 2.0);
+			$('#bmi').val(bmi.toFixed(2));
+	}
+
+	
+	$.fn.wId = function() {
+		var weight = $("#weightId").val();
+		//var regexForNumber = /[0-9]$/;
+		var regexForNumber = /^[0-9\_]+$/;
+		var practiceUserGroup=${practiceUserGroup};
+		if(practiceUserGroup==0){
+			
+			if (regexForNumber.test(weight)) {
+				return true;
+			} else {
+				$.growl.error({
+					message : 'Weight should be numeric (Decimals are not allowed) '
+				});
+				return false;
+			}
+			
+		}else{
+			
+			if(weight!=''){
+				
+				if (regexForNumber.test(weight)) {
+					return true;
+				} else {
+					$.growl.error({
+						message : 'Weight should be numeric (Decimals are not allowed) '
+					});
+					return false;
+				}
+				
+			}else{
+				return true;
+			}
+			
+		}
+		
+	}
+	
+	$.fn.hId = function() {
+		var height = $("#heightId").val();
+		var regexForNumber = /[0-9]$/;
+		var practiceUserGroup=${practiceUserGroup};
+		if(practiceUserGroup==0){
+			
+			if (!regexForNumber.test(height)) {
+				return false;
+			} else {
+				return true;
+			}
+			
+		}else{
+			
+			if(height!=''){
+				
+				if (!regexForNumber.test(height)) {
+					return false;
+				} else {
+					return true;
+				}
+				
+			}else{
+				return true;
+			}
+		}
+		
+	}
+
+	$.fn.inId = function() {
+		var inch = $("#inchId").val();
+		var regexForNumber = /^[0-9\_]+$/;
+		var practiceUserGroup=${practiceUserGroup};
+		if(practiceUserGroup==0){
+			
+			if (!regexForNumber.test(inch)) {
+				$.growl.error({
+					message : 'Inch should be numeric (Decimals are not allowed)'
+				});
+				return false;
+			} else {
+				return true;
+			}
+			
+		}else{
+			
+			if(inch!=''){
+				if (regexForNumber.test(inch)) {
+					return true;
+				} else {
+					$.growl.error({ message : 'Inch should be numeric (Decimals are not allowed) ' });
+					return false;
+				}
+			}else{
+				return true;
+			}
+			
+		}
+		
+	}
+	
+	$("#regularSmokerselectId").unbind().bind('change', function(e) {
+		$.fn.regularSmoker();
+	});
+
+	$.fn.regularSmoker = function() {
+		var regSmoker = $('#regularSmokerselectId option:selected').val();
+		if (regSmoker == '0') {
+			$.growl.error({
+				message : 'Please select the regular smoker choice'
+			});
+			return false;
+		} else
+			return true;
+	}
+	$("#diabeticSelectId").unbind().bind('change', function(e) {
+		$.fn.diabetic();
+	});
+
+	$.fn.diabetic = function() {
+		var isDiabetic = $('#diabeticSelectId option:selected').val();
+		if (isDiabetic == '0') {
+			$.growl.error({
+				message : 'Please select the diabetic choice'
+			});
+			return false;
+		} else
+			return true;
+	}
+	$("#bloodPressureSelectId").unbind().bind('change', function(e) {
+		$.fn.bloodPressure();
+	});
+
+	$.fn.bloodPressure = function() {
+		var bloodPressure = $('#bloodPressureSelectId option:selected').val();
+		if (bloodPressure == '0') {
+			$.growl.error({
+				message : 'Please select the blood pressure choice'
+			});
+			return false;
+		} else
+			return true;
+	}
+	
+	function selectBodypartCjr(id){
+		var cjrCount='';
+		var selectedCjrId='';
+		if(id.includes('_')){
+				cjrCount=id.split("_")[1];
+				selectedCjrId='selectedCjrId_'+cjrCount;
+		}else{
+			selectedBpiLocId='cjrSelectId';
+		}
+		var selectedCjrCountId = $("#"+id+" option:selected").val();
+		var cjr = $('#'+selectedCjrId).val();
+		if (cjr == 0) {
+			$.growl.error("Choose the CJR");
+			$('#selectedhicDiv_'+cjrCount).hide();
+		} else if (cjr == "Yes") {
+			$('#selectedhicDiv_'+cjrCount).show();
+		} else {
+			$('#selectedhicDiv_'+cjrCount).hide();
+		}
+	}	
+	
+	/** Set BodyPart Validation */
+	function selectBodyPartHic(id){
+		var hicCount='';
+		var selectedCjrId='';
+		if(id.includes('_')){
+				cjrCount=id.split("_")[1];
+				selectedCjrId='selectedhicId_'+hicCount;
+		}else{
+			selectedCjrId='hicId';
+		}
+		var selectedCjrCountId = $("#"+id).val();
+		var regexForNumber = /^[a-zA-Z0-9\_]+$/;
+		var hic = $('#'+selectedCjrId).val();
+		if (hic != '') {
+			if(regexForNumber.test(hic)){
+				return true;
+			}else{
+				$.growl.error({message : " HIC should be alphanumeric value "});
+				return false;
+			}
+		} else {
+			return true;
+		}
+	}	
+	
+	/** Set BodyPart Validation */
+	function selectBodypartdischargeLocationType(){
+		var dclCount=$("#hiddenCount").val();
+		var selectedDCLCountId = $("#"+dclCount+" option:selected").val();
+		var selectedDCLId='dischargeLocationTypeId_'+dclCount;
+		var dischargeLocationId = $('#'+selectedDCLId).val();
+		if (dischargeLocationId == 'SNF') {
+			$('#snfDiv_'+dclCount).show();
+			$('#snfContactDiv_'+dclCount).show();
+			$('#snfNameDiv_'+dclCount).show();
+		}else{
+			$('#snfDiv_'+dclCount).hide();
+			$('#snfContactDiv_'+dclCount).hide();
+			$('#snfNameDiv_'+dclCount).hide();
+		}
+		
+	}
+	
+	var saveState="";
+	function validateSave() {
+		$('#hiddenSaveCount').val(1);
+		validatePatientForm();
+	}
+	function validatePatientForm() {
+		var bodyPartCount=$('#hiddenCount').val();
+		document.getElementById("saveAddPatient").disabled = true;
+		document.getElementById("saveExitPatient").disabled = true;
+		if( $.fn.firstNameId() && $.fn.lastNameId() &&  $.fn.genderSelectId()
+			&& $.fn.dobId() && $.fn.emailId() && $.fn.phoneId() 
+			&& $.fn.mrnId() && $.fn.ssnId() && $.fn.wId()  
+			&& $.fn.hId() && $.fn.inId() && $.fn.regularSmoker()     
+			&& $.fn.diabetic() && $.fn.bloodPressure() && selectBodyPartLocationTypeFinal() && bodyPartValidation('selectBodyPartId_'+bodyPartCount)
+			&& bodyPartSelectSurgeonFinal() && bodyPartSelectHospitalFinal()
+			&& bodyPartSelectPayorFinal() && validateDischargeBodyPartDetails() ) {   
+			console.log("Validation Success");
+			console.log("saveState" +saveState);
+			 if(saveState=="true"){
+				$('#animatedModal').modal('show');
+				// document.getElementById("loading-image").style.display='block';
+				$('#saveAddPatient').prop('disabled',false);
+				$('#saveExitPatient').prop('disabled',false);
+				savePatient();
+			}
+			else{
+				$.growl.error({
+					message : "Material workflow is not yet ready for assigning"
+				});
+				$('#saveAddPatient').prop('disabled',false);
+			}  
+			
+		}else{
+			$('#saveAddPatient').prop('disabled',false);
+			$('#saveExitPatient').prop('disabled',false);
+			console.log("Validation failed");
+		}
+
+	}
+	
+	
+	function validateBodyForm() {
+		var bodyPartCount=$('#hiddenCount').val();
+			if(bodyPartCount > 1  ){
+				$('#addButtonId_'+bodyPartCount).hide();
+				$('#removeButtonId_ '+bodyPartCount).show();
+			}else{
+				if(     bodyLocationValidation('selectBodyPartLocTypeId_'+bodyPartCount) && bodyPartValidation('selectBodyPartId_'+bodyPartCount) 
+						&& selectDosBodyPart('selecetedDosId_'+bodyPartCount)  
+						&& bodyPartSelectSurgeon('selectedSurgeonId_'+bodyPartCount) && hospitalSelectBodyPart('hospitalSelectId_'+bodyPartCount) 
+						&& payorTypeBodyPart('selectedPtId_'+bodyPartCount) && selectBodyPartDischargeDate('dischargeDateId_'+bodyPartCount) 
+						&& validateDischargeBodyPartDetails() ) {
+						console.log("BodyPart Validation Success");
+						$('#addButtonId_'+bodyPartCount).hide();
+						$('#removeButtonId_ '+bodyPartCount).show();
+						addBodyPart();
+						return true;
+					}else{
+						console.log("BodyPart Validation failed");
+						return false;
+					}
+			}
+	}
+	
+	function savePatient() {
+		var imageChange=$('#imageChange').val();
+		var fName = $('#fNameId').val();
+		var lName = $('#lNameId').val();
+		var gender=$('#genderSelectId').val();   
+		var saveCount=$('#hiddenSaveCount').val();
+		var dob = $('#dobId').val();
+		var email = $('#emailId').val();
+		var phone = $('#phoneId').val();
+		var mrn = $('#mrnId').val();
+		var ssn = $('#ssnId').val();
+		var height = $('#heightId').val();
+		var weight = $('#weightId').val();
+		var inch=$('#inchId').val();
+		var bmi = $('#bmi').val();
+		var regularSmoker=$('#regularSmokerselectId').val();
+		var diabetic=$('#diabeticSelectId').val();
+		var bloodPressure=$('#bloodPressureSelectId').val();
+		
+		var hospitalUserGroup = '${hospitalUserGroup}';
+		
+		var surgeonId = $('#selectedSurgeonId_0').val();
+		var hospitalId =""; 
+		if(hospitalUserGroup == '1'){
+			hospitalId=$('#hospitalId').attr('hspIdAtrr'); 
+		}else{
+			hospitalId=$('#hospitalSelectId_0').val();
+			if(hospitalId == "0"){
+				hospitalId="10001";
+			}
+		}                  
+		var dos = $('#selecetedDosId_0').val();
+		var hic = $('#selectedhicId_0').val();
+		var mako = $('#selectedMakoId_0').val();
+		var cjr = $('#selectedCjrId_0').val();
+		if(mako=="0"){
+			mako='No';
+		}	if(cjr=="0"){
+			cjr='No';	
+		}
+
+		var payorType = $("#selectedPtId_0 option:selected").val();
+		var selectedBodyPartId= $("#selectBodyPartId_0 option:selected").val();
+		// var laterality=getLateralitySelection();//""; 
+		console.log("selectedBodyPartId : "+selectedBodyPartId);
+		var carePath = selectedBodyPartId.split("-")[0];
+		var laterality = selectedBodyPartId.split("-")[1];	
+		if(carePath=="Back" || carePath=="Neck"){
+			carePath="'"+carePath+"'";
+			laterality="'"+laterality+"'";
+		}else if(carePath=="Neck & Back"){
+			laterality="'Back','Neck'";
+			carePath="'Back','Neck'";
+		}else{
+				carePath="'"+carePath+"'";
+				if(laterality==""){
+					laterality="'Left','Right','Bilateral'";
+				}else{
+					laterality="'"+laterality+"'";
+				}
+		}
+		
+		var bodyPartStatus=false;
+		if(selectedBodyPartId!='0'){
+			bodyPartStatus=true;
+		}
+		console.log("bodyPartStatus :"+bodyPartStatus);
+		var dischargeDate = $("#dischargeDateId_0").val();
+
+		var dischargeLoc = $("#dischargeLocationTypeId_0 option:selected").val();
+		if(dischargeLoc == '0') {
+			dischargeLoc = "";
+		} 
+		
+		var dischargeTo = $("#snfNameId_0 option:selected").val();
+		if(dischargeTo == '0'){
+			dischargeTo = "";
+		}
+		var facilityPhone = $("#snfCpId_0").val();
+		var facilityContact = $("#snfCnId_0").val();
+		
+		var dischargeWith=$("#dischargeWithSelectId_0").val();
+		
+		var surgeonId1 = $('#selectedSurgeonId_1').val();
+		var hospitalId1 =""; 
+		if(hospitalUserGroup == '1'){
+			hospitalId1=$('#hospitalId').attr('hspIdAtrr'); 
+		}else{
+			hospitalId1=$('#hospitalSelectId_1').val();
+			if(hospitalId1 == "0"){
+				hospitalId1="10001";
+			}
+		}                  
+		var dos1 = $('#selecetedDosId_1').val();
+		var hic1 = $('#selectedhicId_1').val();
+		var mako1 = $('#selectedMakoId_1').val();
+		var cjr1 = $('#selectedCjrId_1').val();
+		if(mako1=="0"){
+			mako1='No';
+		}	if(cjr1=="0"){
+			cjr1='No';	
+		}
+
+		var payorType1 = $("#selectedPtId_1 option:selected").val();
+		var selectedBodyPartId1= $("#selectBodyPartId_1 option:selected").val();
+		// var laterality=getLateralitySelection();//""; 
+		console.log("selectedBodyPartId1 : "+selectedBodyPartId1);
+		var carePath1 = selectedBodyPartId1.split("-")[0];
+		var laterality1 = selectedBodyPartId1.split("-")[1];	
+		if(carePath1=="Back" || carePath1=="Neck"){
+			carePath1="'"+carePath1+"'";
+			laterality1="'"+laterality1+"'";
+		}else if(carePath1=="Neck & Back"){
+			laterality1="'Back','Neck'";
+			carePath1="'Back','Neck'";
+		}else{
+				carePath1="'"+carePath1+"'";
+				if(laterality1==""){
+					laterality1="'Left','Right','Bilateral'";
+				}else{
+					laterality1="'"+laterality1+"'";
+				}
+		}
+		
+		var bodyPartStatus1=false;
+		if(selectedBodyPartId1!='0'){
+			bodyPartStatus1=true;
+		}
+		
+		var dischargeDate1 = $("#dischargeDateId_1").val();
+
+		var dischargeLoc1 = $("#dischargeLocationTypeId_1 option:selected").val();
+		if(dischargeLoc1 == '0') {
+			dischargeLoc1 = "";
+		} 
+		
+		var dischargeTo1 = $("#snfNameId_1 option:selected").val();
+		if(dischargeTo1 == '0'){
+			dischargeTo1 = "";
+		}
+		var facilityPhone1 = $("#snfCpId_1").val();
+		var facilityContact1 = $("#snfCnId_1").val();
+		
+		var dischargeWith1=$("#dischargeWithSelectId_1").val();
+
+		var surgeonId2 = $('#selectedSurgeonId_2').val();
+		var hospitalId2 =""; 
+		if(hospitalUserGroup == '1'){
+			hospitalId2=$('#hospitalId').attr('hspIdAtrr'); 
+		}else{
+			hospitalId2=$('#hospitalSelectId_2').val();
+			if(hospitalId2 == "0"){
+				hospitalId2="10001";
+			}
+		}                  
+		var dos2 = $('#selecetedDosId_2').val();
+		var hic2 = $('#selectedhicId_2').val();
+		var mako2 = $('#selectedMakoId_2').val();
+		var cjr2 = $('#selectedCjrId_2').val();
+		if(mako2=="0"){
+			mako2='No';
+		}	if(cjr2=="0"){
+			cjr2='No';	
+		}
+		var payorType2 = $("#selectedPtId_2 option:selected").val();
+		var selectedBodyPartId2= $("#selectBodyPartId_2 option:selected").val();
+		console.log("selectedBodyPartId2 : "+selectedBodyPartId2);
+		// var laterality=getLateralitySelection();//""; 
+		var carePath2 = selectedBodyPartId2.split("-")[0];
+		var laterality2 = selectedBodyPartId2.split("-")[1];	
+		if(carePath2=="Back" || carePath2=="Neck"){
+			carePath2="'"+carePath2+"'";
+			laterality2="'"+laterality2+"'";
+		}else if(carePath2=="Neck & Back"){
+			laterality2="'Back','Neck'";
+			carePath2="'Back','Neck'";
+		}else{
+				carePath2="'"+carePath2+"'";
+				if(laterality2==""){
+					laterality2="'Left','Right','Bilateral'";
+				}else{
+					laterality2="'"+laterality2+"'";
+				}
+		}
+		
+		var bodyPartStatus2=false;
+		if(selectedBodyPartId2!='0'){
+			bodyPartStatus2=true;
+		}
+		
+		var dischargeDate2 = $("#dischargeDateId_2").val();
+
+		var dischargeLoc2 = $("#dischargeLocationTypeId_2 option:selected").val();
+		if(dischargeLoc2 == '0') {
+			dischargeLoc2 = "";
+		} 
+		
+		var dischargeTo2 = $("#snfNameId_2 option:selected").val();
+		if(dischargeTo2 == '0'){
+			dischargeTo2 = "";
+		}
+		console.log(dischargeTo2);
+		var facilityPhone2 = $("#snfCpId_2").val();
+		var facilityContact2 = $("#snfCnId_2").val();
+		
+		var dischargeWith2=$("#dischargeWithSelectId_2").val();
+		
+		console.log("Single BodyPart : "+  bodyPartStatus + " " + surgeonId +" "+ hospitalId +" "+ dos +" "+ mako +" " + cjr +" "+ payorType +" "+ selectedBodyPartId +" " + carePath +"" +laterality+" "+dischargeDate+" "+dischargeLoc+" "+facilityPhone+" "+facilityContact+" "+dischargeWith);
+		console.log("2nd BodyPart  : "+ bodyPartStatus1 + " " + surgeonId1 +" "+ hospitalId1 +" "+ dos1 +" "+ mako1 +" " + cjr1 +" "+ payorType1 +" "+ selectedBodyPartId1 +" " + carePath1 +"" +laterality1+" "+dischargeDate1+" "+dischargeLoc1+" "+facilityPhone1+" "+facilityContact1+" "+dischargeWith1);
+		console.log("3nd BodyPart  : "+ bodyPartStatus2 + " " +surgeonId2 +" "+ hospitalId2 +" "+ dos2 +" "+ mako2 +" " + cjr2 +" "+ payorType2 +" "+ selectedBodyPartId2 +" " + carePath2 +"" +laterality2+" "+dischargeDate2+" "+dischargeLoc2+" "+facilityPhone2+" "+facilityContact2+" "+dischargeWith2);
+		
+		if(imageChange=="1"){
+		var oMyForm = new FormData();
+		oMyForm.append("file", $("#uploadImage").prop("files")[0]);
+		$.ajax({
+					url : "${pageContext.request.contextPath}/pages/savepatientprofilepicture",
+					data : oMyForm,
+					processData : false,
+					contentType : false,
+					type : 'POST',
+					success : function(data) {
+						///$.growl.notice({ message: "Image was successfully uploaded."});
+						console.log("Image was successfully uploaded");
+						$.ajax({
+							url  : "${pageContext.request.contextPath}/pages/configurePatientDetails",
+							data : {
+							fName : fName,
+							lName : lName,
+							mrn : mrn,
+							ssn : ssn,
+							gender : gender,
+							dob : dob,
+							email : email,
+							phone : phone,
+							height : height,
+							weight : weight,
+							bmi : bmi,
+							regularSmoker:regularSmoker,
+							diabetic:diabetic,
+							bloodPressure:bloodPressure,
+							inch:inch,
+							hospitalId0 : hospitalId,
+							surgeonId0 : surgeonId,
+							hspId0 : hospitalId,
+							carePath0 :carePath,
+							laterality0 : laterality,
+							dos0 : dos,
+							mako0 : mako,
+							cjr0 : cjr,
+							payorType0 : payorType,
+							hic0 : hic,
+							dischargeDate0 : dischargeDate,dischargeLoc0 : dischargeLoc,
+							dischargeTo0 : dischargeTo,facilityPhone0 : facilityPhone,
+							facilityContact0 : facilityContact,dischargeWith0 : dischargeWith,
+							bodyPartStatus0 : bodyPartStatus,
+							
+							hospitalId1 : hospitalId1,
+							hspId1:hospitalId1,
+							surgeonId1 : surgeonId1,
+							carePath1 :carePath1,
+							laterality1 : laterality1,
+							dos1 : dos1,
+							mako1 : mako1,
+							cjr1 : cjr1,
+							payorType1 : payorType1,
+							hic1 : hic1,
+							dischargeDate1:dischargeDate1,dischargeLoc1:dischargeLoc1,
+							dischargeTo1:dischargeTo1,facilityPhone1:facilityPhone1,
+							facilityContact1:facilityContact1,dischargeWith1:dischargeWith1,
+							bodyPartStatus1 : bodyPartStatus1,
+							
+							hospitalId2 : hospitalId2,
+							hspId2 : hospitalId2,
+							surgeonId2 : surgeonId2,
+							carePath2 :carePath2,
+							laterality2 : laterality2,
+							dos2 : dos2,
+							mako2 : mako2,
+							cjr2 : cjr2,
+							payorType2 : payorType2,
+							hic2 : hic2,
+							dischargeDate2 : dischargeDate2, dischargeLoc2 : dischargeLoc2,
+							dischargeTo2 : dischargeTo2,facilityPhone2 : facilityPhone2,
+							facilityContact2 : facilityContact2,dischargeWith2 : dischargeWith2,
+							bodyPartStatus2 : bodyPartStatus2
+
+							//visitType:visitType
+							//,landLine:landLine,dischargeTime:dischargeTime	  
+						},
+						
+						type : 'POST',
+						success : function(data) {
+							if (data == "true") {
+								console.log("Pat Success ");
+								document.getElementById("animatedModal").style.display='none';
+								$.growl.notice({ message: "Patient was successfully saved."});
+								//window.location.href="../pages/patientslist";
+								
+							} else {
+								console.log("Pat not Success ");
+								document.getElementById("animatedModal").style.display='none';
+								$.growl.error({
+									message : "Patient was not successfully saved."
+								});
+							}
+							if(saveCount==1){
+								window.location.href="../pages/patientslist";
+							}else{
+								window.location.href="../pages/addpatient";	
+							}
+							  
+						}
+					  });
+
+					},
+					error : function() {
+						console.log("unable to create the record");
+					}
+				});
+		}else{
+			$.ajax({
+				url  : "${pageContext.request.contextPath}/pages/configurePatientDetails",
+				data : {
+				fName : fName,
+				lName : lName,
+				mrn : mrn,
+				ssn : ssn,
+				gender : gender,
+				dob : dob,
+				email : email,
+				phone : phone,
+				height : height,
+				weight : weight,
+				bmi : bmi,
+				regularSmoker:regularSmoker,
+				diabetic:diabetic,
+				bloodPressure:bloodPressure,
+				inch:inch,
+				
+				hospitalId0 : hospitalId,
+				surgeonId0 : surgeonId,
+				hspId0 : hospitalId,
+				carePath0 :carePath,
+				laterality0 : laterality,
+				dos0 : dos,
+				mako0 : mako,
+				cjr0 : cjr,
+				payorType0 : payorType,
+				hic0 : hic,
+				dischargeDate0 : dischargeDate,dischargeLoc0 : dischargeLoc,
+				dischargeTo0 : dischargeTo,facilityPhone0 : facilityPhone,
+				facilityContact0 : facilityContact,dischargeWith0 : dischargeWith,
+				bodyPartStatus0 : bodyPartStatus,
+				
+				hospitalId1 : hospitalId1,
+				hspId1:hospitalId1,
+				surgeonId1 : surgeonId1,
+				carePath1 :carePath1,
+				laterality1 : laterality1,
+				dos1 : dos1,
+				mako1 : mako1,
+				cjr1 : cjr1,
+				payorType1 : payorType1,
+				hic1 : hic1,
+				dischargeDate1:dischargeDate1,dischargeLoc1:dischargeLoc1,
+				dischargeTo1:dischargeTo1,facilityPhone1:facilityPhone1,
+				facilityContact1:facilityContact1,dischargeWith1:dischargeWith1,
+				bodyPartStatus1 : bodyPartStatus1,
+				
+				hospitalId2 : hospitalId2,
+				hspId2 : hospitalId2,
+				surgeonId2 : surgeonId2,
+				carePath2 :carePath2,
+				laterality2 : laterality2,
+				dos2 : dos2,
+				mako2 : mako2,
+				cjr2 : cjr2,
+				payorType2 : payorType2,
+				hic2 : hic2,
+				dischargeDate2 : dischargeDate2, dischargeLoc2 : dischargeLoc2,
+				dischargeTo2 : dischargeTo2,facilityPhone2 : facilityPhone2,
+				facilityContact2 : facilityContact2,dischargeWith2 : dischargeWith2,
+				bodyPartStatus2 : bodyPartStatus2,
+				// visitType:visitType
+				//,landLine:landLine,dischargeTime:dischargeTime	  
+			},
+			type : 'POST',
+			success : function(data) {
+				if (data == "true") {
+					console.log("Pat Success ");
+					document.getElementById("animatedModal").style.display='none';
+					$.growl.notice({ message: "Patient was successfully saved."});
+					//window.location.href="../pages/patientslist";	
+				} else {
+					console.log("Pat not Success ");
+					document.getElementById("animatedModal").style.display='none';
+					$.growl.error({
+						message : "Patient was not successfully saved."
+					});
+				}
+				if(saveCount==1){
+					window.location.href="../pages/patientslist";
+				}else{
+					window.location.href="../pages/addpatient";	
+				}
+			}
+		  });
+		}
+	}	
+
+</script>
+      
+
+       <script type="text/javascript">
+       
+       /** Set BodyPart Validation */
+     			
+       			//Body Location Validation
+       			function bodyLocationValidation(id) {
+       				var selectedBodyLocId = $("#"+id+" option:selected").val();
+       				if (selectedBodyLocId == '0') {
+						$.growl.error({message : 'Choose the body location'});
+						return false;
+					} else {
+						return true;
+					}
+                }
+       			
+       			//Body Part Validation
+       			function bodyPartValidation(id) {
+       				var selectedBodyLocId = $("#"+id+" option:selected").val();
+       				if (selectedBodyLocId == '0') {
+						$.growl.error({message : 'Choose the body part'});
+						return false;
+					} else {
+						return true;
+					}
+                }
+       			
+       		    //Body Location OnChange
+	            function selectBodyPartLocationType(id) {
+						var containerCount=id.split("_")[1];
+						var selectedBodyLocId = $("#"+id+" option:selected").val();
+						var selectBodyPartId='selectBodyPartId_'+containerCount;
+						console.log(" containerCount :  "+containerCount +" bodyLocation Id : "+ selectedBodyLocId +" selectBodyPartId : "+ $('#'+selectBodyPartId));
+
+						if (selectedBodyLocId == '0') {
+							$.growl.error({message : 'Choose the Body Location'});
+							//return false;
+						} else {
+	                        if(selectedBodyLocId==35){
+	                        	
+	                        	console.log("35");
+	                        	 $('#'+selectBodyPartId).children().remove().end().append('<option value="0" selected>Choose</option>');
+	                             $('#'+selectBodyPartId).append('<option value="Neck-Neck">Neck</option>');
+	                             $('#'+selectBodyPartId).append(' <option value="Back-Back">Back</option>');
+	                             $('#'+selectBodyPartId).append(' <option value="Neck & Back">Neck & Back</option>');
+	                             $('#'+selectBodyPartId).append('<option value="Shoulder-Left">Shoulder - Left</option>');
+	                             $('#'+selectBodyPartId).append('<option value="Shoulder-Right">Shoulder - Right</option>');
+	                             $('#'+selectBodyPartId).append('<option value="Elbow-Left">Elbow - Left</option>');
+	                             $('#'+selectBodyPartId).append('<option value="Elbow-Right">Elbow - Right</option>');
+	                             $('#'+selectBodyPartId).append(' <option value="Hand-Left">Hand - Left</option>');
+	                             $('#'+selectBodyPartId).append(' <option value="Hand-Right">Hand - Right</option>');
+	                             $('#'+selectBodyPartId).append('<option value="Wrist-Left">Wrist - Left</option>');
+	                             $('#'+selectBodyPartId).append('<option value="Wrist-Right">Wrist - Right</option>');
+	                             $('#'+selectBodyPartId).append(' <option value="Arm-Left">Arm - Left</option>');
+	                             $('#'+selectBodyPartId).append(' <option value="Arm-Right">Arm - Right</option>');
+	                             $('#'+selectBodyPartId).append('<option value="Fore Arm-Left">Fore Arm - Left</option>');
+	                             $('#'+selectBodyPartId).append('<option value="Fore Arm-Right">Fore Arm - Right</option>');
+	                             console.log(" Success : "+ '#'+selectBodyPartId);
+	                             
+	                        }else if(selectedBodyLocId==36){
+	                        	  $('#'+selectBodyPartId).children().remove().end().append('<option value="0" selected>Choose</option>');
+	                              $('#'+selectBodyPartId).append('<option value="Total Hip Replacement-Left">Total Hip - Left</option>');
+	                              $('#'+selectBodyPartId).append('<option value="Total Hip Replacement-Right">Total Hip - Right</option>');
+	                              $('#'+selectBodyPartId).append('<option value="Total Hip Replacement-Bilateral">Total Hip - Bilateral</option>');
+
+	                              $('#'+selectBodyPartId).append('<option value="Total Knee Replacement-Left">Total Knee - Left</option>');
+	                              $('#'+selectBodyPartId).append('<option value="Total Knee Replacement-Right">Total Knee - Right</option>');
+	                              $('#'+selectBodyPartId).append('<option value="Total Knee Replacement-Bilateral">Total Knee - Bilateral</option>');
+
+	                              $('#'+selectBodyPartId).append('<option value="Partial Knee Replacement-Left">Partial Knee - Left</option>');
+	                              $('#'+selectBodyPartId).append('<option value="Partial Knee Replacement-Right">Partial Knee - Right</option>');
+	                              $('#'+selectBodyPartId).append('<option value="Partial Knee Replacement-Bilateral">Partial Knee - Bilateral</option>');
+
+
+	                              $('#'+selectBodyPartId).append('<option value="Sports Knee-Left">Knee Sports - Left</option>');
+	                              $('#'+selectBodyPartId).append('<option value="Sports Knee-Right">Knee Sports - Right</option>');
+	                              $('#'+selectBodyPartId).append('<option value="Sports Hip-Left">Hip Sports - Left</option>');
+	                              $('#'+selectBodyPartId).append('<option value="Sports Hip-Right">Hip Sports - Right</option>');
+	                              $('#'+selectBodyPartId).append('<option value="Foot-Left">Foot - Left</option>');
+	                              $('#'+selectBodyPartId).append('<option value="Foot-Right">Foot - Right</option>');
+	                              $('#'+selectBodyPartId).append('<option value="Ankle-Left">Ankle - Left</option>');
+	                              $('#'+selectBodyPartId).append('<option value="Ankle-Right">Ankle - Right</option>');
+	                         
+	                        }
+	                        else{
+	                            $('#'+selectBodyPartId).children().remove().end().append('<option value="0" selected>Choose</option>'); 
+	                        }
+	                        addOrRemoveLocation();
+							//return true;
+						}
+					}        
+                                                   
+	          //Serviceline
+	            function StageWorkflowIsOrNo(id){
+	        		//var selectedBodyPartId=$("#selectBodyPartId option:selected").val();
+	        		var swfCount=id.split("_")[1];
+	        		var selectedSwfCountId = $("#"+id+" option:selected").val();
+	        		var selectedSwfId='selectBodyPartId_'+swfCount;
+	        		var selectedBodyPartId = $('#'+selectedSwfId).val();
+	        		var carePath = selectedBodyPartId.split("-")[0];
+	        		var laterality = selectedBodyPartId.split("-")[1];
+	        		console.log(" carePath : "+ carePath + " laterality : " +laterality);
+	        		if(carePath=="Back" || carePath=="Neck"){
+	        			carePath="'"+carePath+"'";
+	        			laterality="'"+laterality+"'";
+	        		}else if(carePath=="Neck & Back"){
+	        			laterality="'Back','Neck'";
+	        			carePath="'Back','Neck'";
+	        		}else{
+	        				carePath="'"+carePath+"'";
+	        				if(laterality==""){
+	        					laterality="'Left','Right','Bilateral'";
+	        				}else{
+	        					laterality="'"+laterality+"'";
+	        				}
+	        			}
+	        	if(selectedBodyPartId!='0'){
+	        		$.ajax({
+	        			type:"POST",
+	        			url:"${pageContext.request.contextPath}/pages/StageWorkflowIsOrNo",
+	        			data:{carepath:carePath,laterality:laterality},
+	        			success:function(data){
+	        				if(data=='emptySurvey'){
+	        					$('#saveAddPatient').prop('disabled',false);
+	        					$.growl.error({
+	        						message : "Material workflow is not yet ready for assigning"
+	        					});
+	        					saveState="false";
+	        					console.log("saveState" +saveState);
+	        				}else if(data=='survey'){
+	        					saveState="true";
+	        					console.log("saveState" +saveState);
+	        					//$('#saveAddPatient').prop('disabled',false);
+	        				}
+	        				
+	        			}
+	        		});
+	        		
+	        		addOrRemoveLocation();
+	        		}
+	        	}
+	          
+	            function addOrRemoveLocation(){
+	                var selectedBodyPart1=$("#selectBodyPartId_0 option:selected").val();
+	                var selectedBodyPart2=$("#selectBodyPartId_1 option:selected").val();
+	                var selectedBodyPart3=$("#selectBodyPartId_2 option:selected").val();
+
+	                if(selectedBodyPart1!="0"){
+	                    $("#selectBodyPartId_1 option[value='"+selectedBodyPart1+"']").remove();
+	                    $("#selectBodyPartId_2 option[value='"+selectedBodyPart1+"']").remove();
+	                }
+
+	                if(selectedBodyPart2!="0"){
+	                    $("#selectBodyPartId_0 option[value='"+selectedBodyPart2+"']").remove();
+	                    $("#selectBodyPartId_2 option[value='"+selectedBodyPart2+"']").remove();
+	                }
+
+	                if(selectedBodyPart3!="0"){
+	                    $("#selectBodyPartId_0 option[value='"+selectedBodyPart3+"']").remove();
+	                    $("#selectBodyPartId_1 option[value='"+selectedBodyPart3+"']").remove();
+	                }
+
+	            }
+	            
+				// DOS Validation	            
+	        	function selectDosBodyPart(id){
+	        		var today = new Date();
+	        		var dd = today.getDate();
+	        		var mm = today.getMonth()+1; 
+	        		var yyyy = today.getFullYear();
+	        		if(dd<10){
+	        		    dd='0'+dd;
+	        		} 
+	        		if(mm<10){
+	        		    mm='0'+mm;
+	        		} 
+	        		var today2 = yyyy+'-'+mm+'-'+dd;
+	        		var dosCount='';
+	        		var selectedDosId='';
+	        		if(id.includes('_')){
+	        				bpLocCount=id.split("_")[1];
+	        				selectedDosId='selecetedDosId_'+dosCount;
+	        		}else{
+	        			selectedDosId='dosId'+dosCount;
+	        		}
+	        		var dosCount=id.split("_")[1];
+	        		var dos = $("#"+id).val();
+	        		/* console.log(selectedDosCountId);
+	        		var dos = $('#'+selectedDosId).val(); */
+	        		// var dob=$('#dobId').val();
+	        		console.log("dos");
+	        		console.log(dos);
+	        		var todayDate= Date.parse(today2);
+	        		var dosDate=Date.parse(dos);
+	        		var dob = $('#dobId').val();
+	        		var hospitalUserGroup='${hospitalUserGroup}';
+	        		if(dob == ''){
+	        			$.growl.error({message : 'Select the DOB'});
+	        			$("#selecetedDosId_"+dosCount).val(0);
+	        			return false;
+	        		}
+	        		else if (dos == '') {
+	        			$('#hospitalSelectDiv_'+dosCount).hide();
+	        			$('#dischargeDiv_'+dosCount).hide();
+	        			$('#dischargewithDiv_'+dosCount).hide();
+	        			$('#dischargeLocationDiv_'+dosCount).hide();
+	        			$('#snfDiv_'+dosCount).hide();
+	        			$('#snfContactDiv_'+dosCount).hide();
+	        			$('#snfNameDiv_'+dosCount).hide();
+	        			if(hospitalUserGroup=='1'){
+	        				$.growl.error({message : 'Select the DOS'});
+	        				$('#hospitalSelectDiv_'+dosCount).hide();
+	        				$('#dischargeDiv_'+dosCount).hide();
+	        				$('#dischargewithDiv_'+dosCount).hide();
+	        				$('#dischargeLocationDiv_'+dosCount).hide();
+	        				$('#snfDiv_'+dosCount).hide();
+	        				$('#snfContactDiv_'+dosCount).hide();
+	        				$('#snfNameDiv_'+dosCount).hide();
+	        				return false;
+	        			}
+	        		}
+	        		 else{
+	        			 if(dosDate == todayDate){
+	        				$('#hospitalSelectDiv_'+dosCount).show();
+	        			 }
+	        		} if(dosDate < todayDate){  //past
+	        			$('#hospitalSelectDiv_'+dosCount).show();
+	        			$('#dischargeDiv_'+dosCount).show();
+	        			$('#dischargewithDiv_'+dosCount).show();
+	        			$('#dischargeLocationDiv_'+dosCount).show();
+	        		} if(dosDate > todayDate){
+	        			$('#hospitalSelectDiv_'+dosCount).show();
+	        			$('#dischargeDiv_'+dosCount).hide();
+	        			$('#dischargewithDiv_'+dosCount).hide();
+	        			$('#dischargeLocationDiv_'+dosCount).hide();
+	        		}
+	        		return true;
+	        	}
+				
+				//Hospital validation				
+	        	function hospitalSelectBodyPart(id){
+	        		var hospitalCount='';
+	        		var selectedHospitalId='';
+	        		var dos='';
+	        		if(id.includes('_')){
+	        				hospitalCount=id.split("_")[1];
+	        				selectedHospitalId='hospitalSelectId_'+hospitalCount;
+	        				dos='selecetedDosId_'+hospitalCount;
+	        		}else{
+	        			selectedHospitalId='hospitalSelectId';
+	        			dos='dosId'+hospitalCount;
+	        		}
+	        		var selectedHospitalCountId = $("#"+id+" option:selected").val();
+	        		var hospitalId = $('#'+selectedHospitalId).val();
+	        		var selectDosId=$("#"+dos).val();
+	        		if(selectDosId==''){
+	        			return true;
+	        		}else{
+	        			console.log("hospitalId");
+	        			console.log(hospitalId);
+	        			if (hospitalId == '0') {
+	        				$.growl.error({
+	        					message : 'Select the hospital'
+	        				});
+	        				return false;
+	        			} else
+	        				return true;
+	        			
+	        		}
+	        		
+	        	}
+
+				
+				// Surgeon Validation
+	        	function bodyPartSelectSurgeon(id){
+	        		var surgeonCount='';
+	        		var selectedSurgeonId='';
+	        		if(id.includes('_')){
+	        				bpLocCount=id.split("_")[1];
+	        				selectedSurgeonId='selectedSurgeonId_'+surgeonCount;
+	        		}else{
+	        			selectedSurgeonId='surgeonSelectId';
+	        		}
+	        		
+	        		var selectedSurgeonCountId = $("#"+id+" option:selected").val();
+	        		var surgeonId = $('#'+selectedSurgeonId).val();
+	        		console.log("surgeonId : " +surgeonId);
+	        		var selectDosId=$("#"+id).val();
+	        		var dos='selecetedDosId_'+surgeonCount;
+	        		// var dos = $('#dosId').val();
+	        		if(dos==''){
+	        			return true;
+	        		}else{
+	        			if(surgeonId == '0') {
+	        			$.growl.error({
+	        				message : 'Select the surgeon'
+	        			});
+	        			return false;
+	        		} else
+	        			return true;
+	        	}
+	        		
+	          }
+			
+			// Get Surgeon UserAccountId
+	        function getSurgeon(dischargeWithSurgeonId){
+	        		console.log( " dischargeWithDynamicId : "+ dischargeWithSurgeonId);
+	        		var surgeonName = $('#'+dischargeWithSurgeonId+ " option:selected").text();
+	        		var surgeonId = $('#'+dischargeWithSurgeonId+  " option:selected").val();
+	        		var count=dischargeWithSurgeonId.split("_")[1];
+	        		var surgeonUserAccId=0;
+	        		console.log(" surgeonUserAccId : "+surgeonId);
+	        		var appendSurgeonOption='<option value="0" selected>Choose..</option>';
+	        		$.post("../pages/getSurgeonUserAccId",{surgeonId:surgeonId},function(data){
+	        			if(data!=null && data!=""){
+	        				surgeonUserAccId=$.parseJSON(data);
+	        				console.log(" surgeonUserAccId : "+ surgeonUserAccId+ " surgeonName : "+ surgeonName);
+	        				appendSurgeonOption+='<option value="'+surgeonUserAccId+'">'+surgeonName+'</option>';
+	        			}
+	        			document.getElementById("dischargeWithSelectId_"+count).innerHTML=appendSurgeonOption;
+	        		});
+	        }	
+				
+			//PayorType Validation	
+	        function payorTypeBodyPart(id){
+	        		var payorCount='';
+	        		var selectedPayorId='';
+	        		if(id.includes('_')){
+	        			payorCount=id.split("_")[1];
+	        			selectedPayorId='selectedPtId_'+payorCount;
+	        		}else{
+	        			selectedPayorId='payorDropDownSelect'+payorCount;
+	        		}
+	        		var selectedPayorCountId = $("#"+id+" option:selected").val();
+	        		var selectedId = $('#'+selectedPayorId).val();
+	        		console.log("payorType : "+selectedId+ "  payorCount : "+payorCount);
+	        		var priorityType='${HPH_PriorityType}';
+	        		if(priorityType=='1'){
+	        			
+	        			if (selectedId == '0') {
+	        				$.growl.error({
+	        					message : 'Select the payor type'
+	        				});
+	        				$('#selectedCjrDiv_'+payorCount).hide();
+	        				$('#selectedhicDiv_'+payorCount).hide();
+	        				return false;
+	        			}
+	        			else {
+	        				if(selectedId == 2){
+	        					$('#selectedCjrDiv_'+payorCount).show();
+	        					$('#selectedCjrId_'+payorCount).val(0);
+	        				}else{
+	        					$('#selectedCjrDiv_'+payorCount).hide();
+	        					$('#selectedhicDiv_'+payorCount).hide();
+	        				}
+	        				return true;
+	        			}
+	        		}else{
+	        			
+	        			return true;
+	        			
+	        		}
+	        }
+			
+			
+	        function selectBodyPartDischargeDate(id){
+	        	var dischargeCount=id.split("_")[1];
+	        	var selectedDischargeId='dischargeDateId_'+dischargeCount;
+	        	var dischargeLocationTypeId='dischargeLocationTypeId_'+dischargeCount;
+	        	var selectDosId='selecetedDosId_'+dischargeCount;
+	        	var selectedDischargeCountId = $("#"+id+" option:selected").val();
+	        	var dischargeDate = $('#'+selectedDischargeId).val();
+	        	var dos = $('#'+selectDosId).val();
+	        	console.log("dischargeDate");
+	        	console.log(dischargeDate);
+	        	var hospitalUserGroup='${hospitalUserGroup}';
+		        if (dos == '') {
+			        	if(hospitalUserGroup=='1'){
+				        	$.growl.error({message : 'Select the DOS'});
+				        	return false;
+			        	}else{
+		        		return true;
+		        		}
+
+	        	} else{
+		        	if(dischargeDate == ''){
+		        	// $.growl.error({message : " Choose the discharge date"});
+		        	return true;
+		        	}else if(dischargeDate != ''){
+		        	var DOS = Date.parse(dos);
+		        	var DOD = Date.parse(dischargeDate);
+			        	if (DOD > DOS) {
+			        	return true;
+			        	}else{
+			        	$.growl.error({message : 'Discharge date should be greater than date of surgery'});
+			        	return false;
+			        	}
+		        	}else{
+		        		return true;
+		        	}
+	        	}
+	        }
+	        
+	        //Discharge Location Validation
+	        function dischargeLocationSelect(dischargeValue){
+	        	var disCount=$('#hiddenCount').val();
+	    		$.ajax({
+	    			type:'POST',
+	    			url:'${pageContext.request.contextPath}/pages/dischargeTypeSelect',
+	    			data:{dischargeType:dischargeValue},
+	    			success:function(data){
+	    				$('#snfNameId_'+disCount).children().remove();
+	    				if(data!=null){
+	    					var dischargeJson=$.parseJSON(data);
+	    					var dischargeAppend='<option value="0">Choose..</option>';
+	    					$.each(dischargeJson,function(key,value){
+	    						dischargeAppend=dischargeAppend+'<option value="'+value.dischargeTo+'">'+value.dischargeTo+'</option>';
+	    					});
+	    					$('#snfNameId_'+disCount).append(dischargeAppend);
+	    					selectBodypartdischargeLocationType();
+	    				}
+	    				
+	    			}
+	    		});
+	    	 }
+	        
+	        /** Final Validation */
+	    	function selectBodyPartLocationTypeFinal(){
+	    		var selectBodyPartId1 = $('#selectBodyPartLocTypeId_0 option:selected').val();
+	    		var selectBodyPartId2 = $('#selectBodyPartLocTypeId_1 option:selected').val();
+	    		var selectBodyPartId3 = $('#selectBodyPartLocTypeId_2 option:selected').val();
+	    		var count=$('#hiddenCount').val();
+	    		console.log("selectBodyPartId1 :  "+selectBodyPartId1+ " selectBodyPartId2 : " + selectBodyPartId2 +" selectBodyPartId3 : "+selectBodyPartId3+ " Count : " +count);
+	    		if (selectBodyPartId1 == '0') {
+	    			$.growl.error({message : 'Choose the Body Location'});
+	    			return false;
+	    		}else if (selectBodyPartId2 == '0' && count=='') {
+	    			$.growl.error({message : 'Choose the Body Location'});
+	    			return false;
+	    		}else if (selectBodyPartId3 == '0' && count=='') {
+	    			$.growl.error({message : 'Choose the Body Location'});
+	    			return false;
+	    		} else {
+
+	    			return true;
+	    		}
+	    		 bodyPartValidation(); 
+	    	}
+	    	/** Final Validation */
+	    	function bodyPartSelectSurgeonFinal(){
+	    		var selectedSurgeonId1 = $('#selectedSurgeonId_0 option:selected').val();
+	    		var selectedSurgeonId2 = $('#selectedSurgeonId_1 option:selected').val();
+	    		var selectedSurgeonId3 = $('#selectedSurgeonId_2 option:selected').val();
+	    		var count=$('#hiddenCount').val();
+	    		console.log("selectedSurgeonId1 :  "+selectedSurgeonId1+ " selectedSurgeonId2 : " + selectedSurgeonId2 +" selectedSurgeonId3 : "+selectedSurgeonId3+ " Count : " +count);
+	    		if (selectedSurgeonId1 == '0') {
+	    			$.growl.error({message : 'Select the surgeon'});
+	    			return false;
+	    		}else if (selectedSurgeonId2 == '0' && count=='') {
+	    			$.growl.error({message : 'Select the surgeon'});
+	    			return false;
+	    		}else if (selectedSurgeonId3 == '0' && count=='') {
+	    			$.growl.error({message : 'Select the surgeon'});
+	    			return false;
+	    		} else {
+
+	    			return true;
+	    		}
+	    	}
+	    	/** Final Validation */
+	    	function bodyPartSelectHospitalFinal(){
+	    		var hospitalSelectId1 = $('#hospitalSelectId_0 option:selected').val();
+	    		var hospitalSelectId2 = $('#hospitalSelectId_1 option:selected').val();
+	    		var hospitalSelectId3 = $('#hospitalSelectId_2 option:selected').val();
+	    		var dosId1 = $('#selecetedDosId_0').val();
+	    		var dosId2 = $('#selecetedDosId_1').val();
+	    		var dosId3 = $('#selecetedDosId_2').val();
+	    		var count=$('#hiddenCount').val();
+	    		console.log("hospitalSelectId1 :  "+hospitalSelectId1+ " hospitalSelectId2 : " + hospitalSelectId2 +" hospitalSelectId3 : "+hospitalSelectId3+ " Count : " +count+ "  dosId1 :" +dosId1+ "  dosId2 :" +dosId2+ "  dosId3 :" +dosId3);
+	    		if (hospitalSelectId1 == '0' && dosId1!='') {
+	    			$.growl.error({message : 'Select the hospital'});
+	    			return false;
+	    		}else if (hospitalSelectId2 == '0' && dosId2!='' && count=='') {
+	    			$.growl.error({message : 'Select the hospital'});
+	    			return false;
+	    		}else if (hospitalSelectId2 == '0' && dosId3!='' && count=='') {
+	    			$.growl.error({message : 'Select the hospital'});
+	    			return false;
+	    		} else {
+	    			return true;
+	    		}
+	    	}
+	    	/** Final Validation */
+	    	function bodyPartSelectPayorFinal(){
+	    		var payorDropDownSelect1 = $('#selectedPtId_0 option:selected').val();
+	    		var payorDropDownSelect2 = $('#selectedPtId_1 option:selected').val();
+	    		var payorDropDownSelect3 = $('#selectedPtId_2 option:selected').val();
+	    		var count=$('#hiddenCount').val();
+	    		if (payorDropDownSelect1 == '0') {
+	    			$.growl.error({message : 'Select the payor type'});
+	    			return false;
+	    		}else if (payorDropDownSelect2 == '0' && count=='') {
+	    			$.growl.error({message : 'Select the payor type'});
+	    			return false;
+	    		}else if (payorDropDownSelect3 == '0' && count=='') {
+	    			$.growl.error({message : 'Select the payor type'});
+	    			return false;
+	    		} else {
+
+	    			return true;
+	    		}
+	    	}
+	    	/** Final Validation */
+	    	function validateDischargeBodyPartDetails(){
+	    			
+	    		var idCount=$("#hiddenCount").val();
+	    		var selectedBodyLocId = $("#"+idCount+" option:selected").val();
+	    		var disDate='dischargeDateId_'+idCount;
+	    		var disWith='dischargeWithSelectId_'+idCount;
+	    		var disType='dischargeLocationTypeId_'+idCount;
+	    		var disTo='snfNameId_'+idCount;
+	    		var facContact='snfCnId_'+idCount;
+	    		var facPhone='snfCpId_'+idCount;
+	    		var dischargeDate=$('#'+disDate).val();
+	    		var dischargeWith= $('#'+disWith).val();
+	    		var dischargeType=$('#'+disType).val();
+	    		var dischargeTo= $('#'+disTo).val();
+	    		var facilityContact=$('#'+facContact).val();
+	    		var facilityPhone=$('#'+facPhone).val();
+	    		
+	    		console.log(dischargeDate +" "+ dischargeTo +" "+ dischargeWith +" "+ dischargeType+ " "+ facilityContact+ " "+ facilityPhone);
+	    		
+	    		if(dischargeDate!='' &&   dischargeWith!="0" && dischargeType!="0"){
+	    			if(dischargeType == "SNF"){
+	    				if(dischargeTo!="0" && facilityContact!='' && facilityPhone!= ''){
+	    					return true;
+	    				}else{
+	    					$.growl.error({message : " Please fill all the discharge details " })
+	    					return false;
+	    				}
+	    			} else{
+	    				return true;
+	    			}
+	    		}else if(dischargeDate=='' &&  dischargeTo=="0" && dischargeWith=="0" && dischargeType=="0" && facilityContact=='' && facilityPhone== ''){
+	    			return true;
+	    		}else{
+	    			$.growl.error({message : " Please fill all the discharge details "});
+	    			return false;
+	    		}
+	    	} 
+
+    </script>
+
+
