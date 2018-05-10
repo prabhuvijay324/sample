@@ -1,0 +1,220 @@
+package com.example;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Scanner;
+import java.util.TreeSet;
+
+public final class B {
+	public static void main(String[] args) {
+        //datastring();
+		//fibonacci();
+		//palindrome();
+		//array();
+		//findList();
+		//findDuplicateWords();
+		//findingVowels();
+		//findingAnagram();
+		//findingDistance();
+		//pyramidpattern();
+        //secArray();
+	}
+
+	
+	/*private static void secArray() {
+	int arr[]={-1,-52,-45,-32,-67,-77,-776,-4};
+	int highest=arr[0];
+	int second=arr[0];
+	for(int i=0;i<arr.length;i++){
+		if(highest<arr[i]){
+		second=highest;
+		highest=arr[i];
+		}
+		else if (arr[i] > second) {
+			second = arr[i];
+			 
+		}{
+			
+		}
+	}
+	
+	System.out.println(highest);
+	
+	}*/
+
+
+	private static void datastring() {
+	String arr[]={"a","b","c","d"};
+	String arr1[]={"e","f","g"};
+	
+	
+	int length=arr.length+arr1.length;
+	int pos=0;
+	String[] result=new String[length];
+	for(String data:arr){
+		result[pos]=data;
+		pos++;
+	}
+	
+	System.out.println(Arrays.toString(result));
+	}
+
+	private static void palindrome() {
+		 int i,p,n=50;
+		 for(i=2;i<=n;i++){
+			 p=0;
+			 for(int j=2;j<i;j++){
+				 if(i%j==0){
+					 p=1;
+				 }
+				
+			 }
+			 if(p==0){
+				 System.out.println(i);
+			 }
+			
+		 }
+		
+	}
+
+
+	private static void array() {
+		int arr[][]={{1,2,3,4},{5,6,7,8},{9,10,11,12}};
+		int arr1=0,arr2=1,arr3;
+		for(int i=2;i<arr.length;i++){
+			arr3=arr1+arr2;
+			System.out.println(""+arr3);
+			arr1=arr2;
+			arr2=arr3;
+		}
+		
+	}
+
+
+	private static void fibonacci() {
+	ArrayList<Integer> data=new ArrayList<>();
+	data.add(0);
+	data.add(1);
+	System.out.print(data.get(0)+" "+data.get(1)+ " ");
+	int n=10;
+	for(int i=2;i<n;i++){
+		data.add(data.get(i-1)+ data.get(i-2));
+		System.out.print(data.get(i)+" ");
+	}
+		
+	}
+
+
+	public List<String> findList() {
+		List<String> data=new ArrayList<>();
+		/*data.add("bond");
+		data.add("kindu");
+		data.add("warner");*/
+		return data;
+	}
+
+
+	private static void pyramidpattern() {
+		int n=5;
+		for(int i=1;i<=n;++i){
+			for(int j=1;j<=i;++j){
+				System.out.println("*");
+			}
+			System.out.println();
+		}
+		
+	}
+
+	private static void findingDistance() {
+		// TODO Auto-generated method stub
+		int noOfStops = 6;
+		
+		Scanner scanner = new Scanner(System.in);
+		System.out.println("Enter the Bus Stop No :");
+		int busStopNo = scanner.nextInt();
+		
+		Scanner scanner1 = new Scanner(System.in);
+		System.out.println("Enter the Stop Fare :");
+		int stopFare = scanner1.nextInt();
+		
+		int calculateAmount = noOfStops - busStopNo;
+		
+		if(calculateAmount<=0){
+			System.out.println("Cannot able to calculate");
+		}
+		else if(calculateAmount <= 2){
+			System.out.println(10);
+		}
+		else{
+			System.out.println(calculateAmount * stopFare);
+		}
+		
+	}
+
+	private static void findingAnagram() {
+		// TODO Auto-generated method stub
+		String word1 = "HariH";
+		String word2 = "Naresh";
+		HashSet<String> data=new HashSet<>();
+		int count = 0;
+	
+		for(int i=0;i<word1.length();i++){
+			for(int j=0;j<word2.length();j++){
+				if(String.valueOf(word1.charAt(i)).equalsIgnoreCase(String.valueOf(word2.charAt(j)))){
+					data.add(String.valueOf(word1.charAt(i)));
+				}
+			}
+		}
+		System.out.println(data.size()+"");
+	}
+
+	private static void findingVowels() {
+		// TODO Auto-generated method stub
+		String[] vowels = {"a","e","i","o","u"};
+		String r = "CVS is a data relatively basic version control system. For the most part, "
+				+ "Subversion has matched or exceeded CVS's feature set where those features continue "
+				+ "to apply in Subversion's particular design. Subversion versions directories as first-class "
+				+ "objects, just data like files. Copying data and deleting are versioned operations.";
+		
+		//char[] charArr = r.toCharArray();
+		int count = 0;
+		for(int i=0;i<r.length();i++){
+			for(int j=0;j<vowels.length;j++){
+				if(vowels[j].equalsIgnoreCase(String.valueOf(r.charAt(i)))){
+					System.out.print(r.charAt(i));
+					count++;
+				}
+			}
+		}
+		System.out.println(count+"");
+		
+	}
+
+	private static void findDuplicateWords() {
+		// TODO Auto-generated method stub
+		String r = "CVS is a data relatively basic version control system. For the most part, "
+				+ "Subversion has matched or exceeded CVS's feature set where those features continue "
+				+ "to apply in Subversion's particular design. Subversion versions directories as first-class "
+				+ "objects, just data like files. Copying data and deleting are versioned operations.";
+
+		String[] split = r.split(" ");
+		LinkedHashSet<String> data = new LinkedHashSet<String>();
+		for (int i = 0; i < split.length; i++) {
+			data.add(split[i]);
+		}
+
+		for (String finalOutput : data) {
+			System.out.print(finalOutput + " ");
+		}
+	}
+}
+
